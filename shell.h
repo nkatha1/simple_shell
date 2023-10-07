@@ -33,7 +33,9 @@
 
 #define HIST_FILE ".simple_shell_hist"
 #define HIST_MAX 4096
+#define MAX_COMMAND_LENGTH 100
 
+void execute_command(const char *command);
 extern char **environ;
 
 
@@ -96,7 +98,7 @@ typedef struct passinfo
 }info_t;
 
 define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, nULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \ 0, 0, 0}
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \ 0, 0, 0}
 
 
 /*
