@@ -26,18 +26,18 @@ ssize_t input_buf(info_t *info, char **b, size_t *len)
 #endif
 		if (r > 0)
 		{
-			if ((*buf)[r- 1] == '\n')
+			if ((*b)[r - 1] == '\n')
 			{
 				(*b)[r - 1] = '\0'; /* trailing whitespaces removed */
-				r --;
+				r--;
 			}
 			info->linecount_flag = 1;
 			remove_comments(*b);
-			build_history_list(info, *b, info->histocount++);
+			build_history_list(info, *b, info->histcount++);
 			/* if (_strchr(*b, ';')) is tis a command chain */
 			{
 				*len = r;
-				info->cmd_buf = buf;
+				info->cmd_buf = b;
 			}
 		}
 }
@@ -51,12 +51,12 @@ return (r);
  *
  * Return: Returns the bytes to read.
  */
-ssize get_input(info_t *info)
+ssize_t get_input(info_t *info)
 {
 	static char *buf; /* ';' chain command buffer */
 	static size_t i, j, len;
-	ssize_t r = o;
-	char **buf_p = &(info->arg), 8p;
+	ssize_t r = 0;
+	char **buf_p = &(info->arg), *p;
 
 	_putchar(BUF_FLUSH);
 	r = input_buf(info, &buf, &len);
@@ -86,7 +86,7 @@ ssize get_input(info_t *info)
 		return (_strlen(p)); /* To the current command it returns it */
 	}
 
-	*buf_p = buf /* pass back buffer from getline else not a chain */
+	*buf_p = buf; /* pass back buffer from getline else not a chain */
 	return (r); /* length of buff from _getline it returns it */
 }
 
@@ -105,9 +105,9 @@ ssize_t read_buf(info_t *info, char *b, size_t *i)
 	if (*i)
 		return (0);
 	r = read(info->readfd, b, READ_BUF_SIZE);
-	if (r >=0)
+	if (r >= 0)
 		*i = r;
-		return (r);
+	return (r);
 }
 
 /**
@@ -132,21 +132,20 @@ int _getline(info_t *info, char **pt, size_t *length)
 	if (i == len)
 		i = len = 0;
 
-	r = read_buf(info, buf, &len)
+	r = read_buf(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
 	c = _strchr(buf + i, '\n');
-	k = c ? 1 = (unsigned int)(c - buf ) : len;
-	new_p = _realloc (p, s, s ? s + k : k + 1);
+	k = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
 	if (!new_p) /* MALLOC FAILURE! */
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		_strncat(new_p, buf + i, k - I);
+		_strncat(new_p, buf + i, k - i);
 	else
-		_strncpy(new_p, buf + i, k -i +1);
-	
+		_strncpy(new_p, buf + i, k - i + 1);
 	s += k - i;
 	i = k;
 	p = new_p;
@@ -163,16 +162,10 @@ int _getline(info_t *info, char **pt, size_t *length)
  *
  * Return: It returns void.
  */
-void sigintHandler(__attribute__((unused)0int sig_num)
+void sigintHandler(__attribute__((unused))int sig_num)
 {
 	_puts("\n");
 	_puts("$ ");
 	_putchar(BUF_FLUSH);
 }
 
-
-
-
-
-
-	

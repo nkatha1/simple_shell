@@ -184,7 +184,7 @@ int _myalias(info_t *);
 
 /* t_get.c */
 ssize_t get_input(info_t *);
-int _getline(info_t*, char **, size_t);
+int _getline(info_t *, char **, size_t *);
 void sigintHandler(int);
 
 /* t_infoget */

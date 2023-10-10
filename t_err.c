@@ -10,7 +10,7 @@ void _eputs(char *s)
 {
 	int i = 0;
 
-	if ( !s)
+	if (!s)
 		return;
 	while (s[i] != '\0')
 	{
@@ -18,6 +18,7 @@ void _eputs(char *s)
 		i++;
 	}
 }
+
 /**
  * _eputchar - The  stderr char c it writes it.
  * @ch: To be printed the character.
@@ -27,14 +28,14 @@ void _eputs(char *s)
 int _eputchar(char ch)
 {
 	static int i;
-	static char buf[WRITE_BUF_SIZE};
+	static char buf[WRITE_BUF_SIZE];
 
 	if (ch == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
 		write(2, buf, i);
-		i =0;
+		i = 0;
 	}
-	if (ch 1= BUF_FLUSH)
+	if (ch == BUF_FLUSH)
 		buf[i++] = ch;
 	return (1);
 }
@@ -51,13 +52,13 @@ int _putfd(char ch, int fd)
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (ch == BUF_FLUSH || I >= WRITE_BUF_SIZE)
+	if (ch == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
 		write(fd, buf, i);
 		i = 0;
 	}
 	if (ch != BUF_FLUSH)
-		buf[i ++] = ch;
+		buf[i++] = ch;
 	return (1);
 }
 
@@ -71,6 +72,7 @@ int _putfd(char ch, int fd)
 int _putsfd(char *s, int fd)
 {
 	int i = 0;
+
 	if (!s)
 		return (0);
 	while (*s)
