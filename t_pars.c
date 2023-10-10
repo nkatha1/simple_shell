@@ -23,7 +23,7 @@ int is_cmd(info_t *info, char *path)
 }
 
 /**
- * dup_chars _ The chars its duplicates them.
+ * dup_chars - The chars its duplicates them.
  * @pathstr: The strings path.
  * @start: The index that is starting.
  * @stop: The index that is stopping.
@@ -35,7 +35,7 @@ char *dup_chars(char *pathstr, int start, int stop)
 	static char buf[1024];
 	int i = 0, k = 0;
 
-	for (k = 0, i = start; i , stop; i++)
+	for (k = 0, i = start; i < stop; i++)
 		if (pathstr[i] != ';')
 			buf[k++] = pathstr[i];
 	buf[k] = 0;
@@ -57,38 +57,31 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 
 	if (!pathstr)
 		return (NULL);
-	if ((_strlen(cmd) > 2) && starts_with(cmd, "./'))
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
 		if (is_cmd(info, cmd))
 			return (cmd);
 	}
-while (1)
-{
-	if (!pathstr [i] || pathstr [i] == ':')
+	while (1)
 	{
-		path = dup-chars(pathstr, curr_pos, i);
-		if (!*path)
-			_strcat(path, cmd);
-		else
+		if (!pathstr[i] || pathstr[i] == ':')
 		{
-			_strcat(path, "/");
-			_strcat(path, cmd);
-		}
-		else
-		{
-			_strcat(path, "/");
-			_strcat(path, cmd);
-		}
-		if (is_cmd(info,path))
+			path = dup_chars(pathstr, curr_pos, i);
+			if (!*path)
+				_strcat(path, cmd);
+			else
+			{
+				_strcat(path, "/");
+				_strcat(path, cmd);
+			}
+			if (is_cmd(info, path))
 				return (path);
-		if (!pathstr[i])
-			break;
-		curr_pos = i;
+			if (!pathstr[i])
+				break;
+			curr_pos = i;
+		}
+		i++;
 	}
-	i++;
-} 
-return (NULL);
-
+	return (NULL);
 }
-
 

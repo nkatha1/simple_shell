@@ -33,9 +33,7 @@
 
 #define HIST_FILE ".simple_shell_hist"
 #define HIST_MAX 4096
-#define MAX_COMMAND_LENGTH 100
 
-void execute_command(const char *command);
 extern char **environ;
 
 
@@ -50,7 +48,7 @@ typedef struct liststr
 	int num;
 	char *str;
 	struct liststr *next;
-}list_t;
+} list_t;
 
 /**
  * struct passinfo - Has the uniform prototype that is allowed by the pseudo
@@ -95,28 +93,29 @@ typedef struct passinfo
 	int cmd_buf_type;
 	int readfd;
 	int histcount;
-}info_t;
+} info_t;
 
-define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \ 0, 0, 0}
+#define INFO_INIT \
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0}
 
 
-/*
-* struct builtin - The fn that is related and the string builtin it contains it.
+/**
+* struct builtin - contains a builtin string and related function
 * @type: The flag command builtin.
 * @func: Function.
 */
-typedef struct builtin 
+typedef struct builtin
 {
 	char *type;
 	int (*func)(info_t *);
-}builtin_table;
+} builtin_table;
 
 /* t_shlop.c */
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
-void fork_cmd (info_t *);
+void fork_cmd(info_t *);
 
 /* t_pars.c */
 int is_cmd(info_t *, char *);
@@ -190,7 +189,7 @@ void sigintHandler(int);
 
 /* t_infoget */
 void clear_info(info_t *);
-void set info(info_t *, char **);
+void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
 /* t_env.c */
@@ -209,7 +208,7 @@ int _setenv(info_t *, char *, char *);
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history list(info_t *info, char *buf, int linecount);
+int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /* t_list.c */
@@ -229,7 +228,7 @@ ssize_t get_node_index(list_t *, list_t *);
 /* t_vars.c */
 int is_chain(info_t *, char *, size_t *);
 void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info-t *);
+int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
 
