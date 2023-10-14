@@ -23,9 +23,9 @@ int _strlen(char *l)
  * @sa: Strang that is first.
  * @sb: Strang that is second.
  *
- * Return : If sa <sb, it returns negative, sa >sb positive , sa == sb zero.
+ * Return: If sa <sb, it returns negative, sa >sb positive , sa == sb zero.
  */
-int_strcmp(char *sa, char sb)
+int _strcmp(char *sa, char *sb)
 {
 	while (*sa && *sb)
 	{
@@ -45,7 +45,7 @@ int_strcmp(char *sa, char sb)
  * @hs: The string to be searched.
  * @nd : Sub string to look for.
  *
- * Return : Next character adress haystack or NULL.
+ * Return: Next character adress haystack or NULL.
  */
 char *starts_with(const char *hs, const char *nd)
 {
@@ -56,7 +56,7 @@ char *starts_with(const char *hs, const char *nd)
 }
 
 /**
- * _strcat _ The two strings it links them.
+ * _strcat - The two strings it links them.
  * @db: Buffers destination.
  * @sb: Buffers source.
  *
@@ -69,7 +69,7 @@ char *_strcat(char *db, char *sb)
 	while (*db)
 		db++;
 	while (*sb)
-		*dest++ = *sb++;
+		*db++ = *sb++;
 	*db = *sb;
 	return (ret);
 }
