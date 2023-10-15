@@ -44,21 +44,23 @@ int hsh(info_t *info, char **av)
 }
 
 /**
- * find_builtin _ The command of the builtin, it finds it.
+ * find_builtin - The command of the builtin, it finds it.
  * @info: Returns information and its the struct parameter.
  *
- * Return: if builtin is not found, returns 1,if builtin is executed successfully 0, 
- *           if builtin found but not succesful 1, if builtin signals exit -2.
+ * Return: if builtin is not found, returns 1,
+ *         if builtin is executed successfully 0, 
+ *         if builtin found but not succesful 1, 
+ *         if builtin signals exit -2.
  */
 int find_builtin(info_t *info)
 {
 	int i, built_in_ret = -1;
 	builtin_table builtintbl[] = {
-		{"exit", _myexit}
+		{"exit", _myexit},
 		{"env", _myenv},
-		{"help", _myhelp}
-		{"history", _myhistory}
-		{"setenv", _mysentenv}
+		{"help", _myhelp},
+		{"history", _myhistory},
+		{"setenv", _mysentenv},
 		{"unsentenv", _myunsentenv},
 		{"cd", _mycd},
 		{"alias", _myalias},
@@ -77,7 +79,7 @@ int find_builtin(info_t *info)
 
 /**
  * find_cmd - In the PATH, it finds a command.
- * @info_ Parameter struct and return info struct.
+ * @info: Parameter struct and return info struct.
  *
  * Return: Returns void.
  */
@@ -111,7 +113,7 @@ void find_cmd(info_t *info)
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
 		{
-			info->staus = 127;
+			info->status = 127;
 			print_error(info, "not found\n");
 		}
 	}
@@ -130,20 +132,20 @@ void fork_cmd(info_t *info)
 	child_pid = fork();
 	if (child_pid == -1)
 	{
-		/* TODO: PUT ERR FUNCTION */
+		/* TODO: PUT ERROR FUNCTION */
 		perror("Error:");
 		return;
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->path, info->argv, get_environ(info) == -1)
+		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{
 			free_info(info, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
 		}
-		/* TODO: PUT ERR FUMCTION */
+		/* TODO: PUT ERROR FUNCTION */
 	}
 	else
 	{
