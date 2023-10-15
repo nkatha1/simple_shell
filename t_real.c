@@ -22,9 +22,9 @@ char *_memset(char *m, char c, unsigned int n)
  */
 void ffree(char **vv)
 {
-	char *aa = vv;
+	char **a = vv;
 
-	if(!vv)
+	if (!vv)
 		return;
 	while (*vv)
 		free(*vv++);
@@ -46,8 +46,8 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	if (!ptr)
 		return (malloc(new_size));
 	if (!new_size)
-		return(free(ptr), NULL);
-	if (new-size == old_size)
+		return (free(ptr), NULL);
+	if (new_size == old_size)
 		return (ptr);
 
 	p = malloc(new_size);
@@ -55,7 +55,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		return (NULL);
 
 	old_size = old_size < new_size ? old_size : new_size;
-	while (old_size --)
+	while (old_size--)
 		p[old_size] = ((char *)ptr)[old_size];
 	free(ptr);
 	return (p);
