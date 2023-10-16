@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * _myenv - prints the current environment.
- * @info: structure containing potential arguments used
- *		to maintain constant function prototypes.
- * Return: Always 0
+ * _myenv - The current environment it prints it.
+ * @info: Potential arguments structure used to mantain
+ *         function prototype that is constant.
+ * Return: Returns 0 always.
  */
 int _myenv(info_t *info)
 {
@@ -13,11 +13,11 @@ int _myenv(info_t *info)
 }
 
 /**
- * _getenv - gets the value of an environ variable
- * @info: structure containing potential arguments used
- *		to maintain constant function prototypes.
- * @name: environment variable name.
- * Return: Always 0
+ * _getenv - Value of the environment variable it gets it.
+ * @info: Potential arguments structure used to mantain
+ *        function prototype that is constant.
+ * @name: The environment variable name.
+ * Return: It retuns the value.
  */
 char *_getenv(info_t *info, const char *name)
 {
@@ -37,9 +37,9 @@ char *_getenv(info_t *info, const char *name)
 /**
  * _mysetenv - initialize a new environment variable,
  *		or modify an existing one.
- * @info: structure containing potential arguments used
- *		to maintain constant function prototypes.
- * Return: Always 0
+ * @info: Potential arguments structutre used to mantain 
+ *        function prototype that is constant.
+ * Return: Returns 0 always.
  */
 int _mysetenv(info_t *info)
 {
@@ -57,10 +57,31 @@ int _mysetenv(info_t *info)
 }
 
 /**
- * populate_env_list - populate env linked list
- * @info: structure conataining potential arguments used
- *		to maintain constant function prototypes.
- * Return: Always 0
+ * _myunsetenv - An environ variable, it removes it.
+ * @info: Potential arguments structure used to mantain 
+ *        function prototype that is constant.
+ * Return: Returns 0 always.
+ */
+int _myunsetenv(info_t *info)
+{
+	int i;
+
+	if (info->argc == 1)
+	{
+		_eputs("Too few arguments.\n");
+		return (1);
+	}
+	for (i = 1; i <= info->argc; i++)
+		_unsetenv(info, info->[i]);
+
+	return (0);
+}
+
+/**
+ * populate_env_list - An eni list that is linked its populates it.
+ * @info: Potential arguments structure used to mantain
+ *        function prototype that is constant.
+ * Return: Returns 0 always.
  */
 int populate_env_list(info_t *info)
 {
