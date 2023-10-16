@@ -3,7 +3,7 @@
 /**
  * add_node - To the start of a list it adds a node.
  * @head: Pointers adress head node.
- * @sr: The filed nodes string.
+ * @str: The filed nodes string.
  * @num: The used hist nodes index.
  *
  * Return: The lists size.
@@ -16,7 +16,7 @@ list_t *add_node(list_t **head, const char *str, int num)
 		return (NULL);
 	new_head = malloc(sizeof(list_t));
 	if (!new_head)
-			return (NULL);
+		return (NULL);
 	_memset((void *)new_head, 0, sizeof(list_t));
 	new_head->num = num;
 	if (str)
@@ -36,7 +36,7 @@ list_t *add_node(list_t **head, const char *str, int num)
 /**
  * add_node_end - To the end of a list it adds a node.
  * @head: Pointer adresses node head.
- * @sr: The field nodes string.
+ * @str: The field nodes string.
  * @num : Used by history index node.
  *
  * Return: The lists size.

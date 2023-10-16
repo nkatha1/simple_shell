@@ -43,6 +43,24 @@ char *_getenv(info_t *info, const char *name)
  */
 int _mysetenv(info_t *info)
 {
+	if (info->argc != 3)
+	{
+		_eputs("Incorrect number of arguments\n");
+		return (1);
+	}
+	if (_setenv(info, info->argv[1], info->argv[2]))
+		return (0);
+	return (1);
+}
+
+/**
+ * _myunsetenv - Remove an environment variable
+ * @info: structure containing potential arguments used to
+ *		to maintain constant function prototypes
+ * Return: Always 0
+ */
+int _myunsetenv(info_t *info)
+{
 	int i;
 
 	if (info->argc == 1)
