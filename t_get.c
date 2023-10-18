@@ -40,9 +40,8 @@ ssize_t input_buf(info_t *info, char **b, size_t *len)
 				info->cmd_buf = b;
 			}
 		}
-}
-return (r);
-
+	}
+	return (r);
 }
 
 /**
