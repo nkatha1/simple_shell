@@ -56,8 +56,16 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 			j = len;
 		}
 	}
-	*p = j;
+	if (info->cmd_buf_type == CMD_OR)
+	{
+		if (info->status)
+		{
+			buf[i] = 0;
+			j = len;
+		}
+	}
 
+	*p = j;
 }
 
 /**
@@ -111,7 +119,7 @@ int replace_vars(info_t *info)
 				_strdup(convert_number(info->status, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!_strcmp(info->argv[i], "$$"))
 		{
 			replace_string(&(info->argv[i]),
 				_strdup(convert_number(getpid(), 10, 0)));

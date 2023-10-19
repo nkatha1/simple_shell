@@ -34,15 +34,14 @@ ssize_t input_buf(info_t *info, char **b, size_t *len)
 			info->linecount_flag = 1;
 			remove_comments(*b);
 			build_history_list(info, *b, info->histcount++);
-			/* if (_strchr(*b, ';')) is tis a command chain */
+			/*if (_strchr(*b, ';')) is tis a command chain */
 			{
 				*len = r;
 				info->cmd_buf = b;
 			}
 		}
-}
-return (r);
-
+	}
+	return (r);
 }
 
 /**
