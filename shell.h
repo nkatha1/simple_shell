@@ -161,8 +161,8 @@ void *_realloc(void *, unsigned int, unsigned int );
 int bfree(void **);
 
 /* t_ato.c */
-int interactive(info_t *);
-int is_delim(char, char *);
+int interact(info_t *);
+int _isdelim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
 
