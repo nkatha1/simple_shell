@@ -34,7 +34,7 @@
 #define HIST_FILE   ".simple_shell_history"
 #define HIST_MAX      4096
 
-extern char *8environ;
+extern char *environ;
 
 /**
  * struct liststr - The singly linked list.
@@ -95,8 +95,8 @@ typedef struct passinfo
 }info_t;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL
-	0, 0, 0}
+{NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL}
+	{0, 0, 0}
 
 /**
  * struct builtin - The builtin string it contains it and a fn that
@@ -154,7 +154,7 @@ char **strtow2(char *, char);
 
 /* t_reel.c */
 char *_memset(char *, char, unsigned int);
-voif ffree(char **);
+void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int );
 
 /* t_meme.c */
@@ -162,8 +162,8 @@ int bfree(void **);
 
 /* t_ato.c */
 int interact(info_t *);
-int _isdelim(char, char *);
 int _isalpha(int);
+int _isdelim(char, char *);
 int _atoi(char *);
 
 /* t_erro1.c */
@@ -209,7 +209,7 @@ int renumber_history(info_t *info);
 /* t_list.c */
 list_t *add_node(list_t **, const char *, int);
 list_t *add_node_end(list_t **, const char *, int);
-size-t print_list_str(const list_t *);
+size_t print_list_str(const list_t *);
 int delete_node_at_index(list_t **, unsigned int);
 void free_list(list_t **);
 
@@ -226,6 +226,9 @@ void check_chain(info_t *, char *, size_t *, size_t, size_t);
 int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
+
+int shell_exit(info_t *info);
+int chadir(info_t *info); 
 
 #endif
 
