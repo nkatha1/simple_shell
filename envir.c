@@ -1,91 +1,103 @@
 #include "shell.h"
 
 /**
- * _myenv - The current environ it prints it.
- * @info: Potential arguments structure used to mantain a prototype
- *        function that is constant.
- * Return: It returns 0 always.
- */
-int _myenv(info_t *info)
-{
-	print_list_str(info->env);
-	return (0);
-}
-
-/**
  * _getenv - The value of an environment variable, it gets it.
- * @info: Potential arguments structure used to mantain a prototype
- *        function that is constant.
- * Return: It returns the value.
+ * @info: pointer to struct
+ * @name: pointer to string
+ *
+ * Return: char
  */
-char *_getenv(info_t *info, const char *name)
+char *_getenv(info_t *info, const char *form)
 {
+	char *c;
 	list_t *node = info->env;
-	char *p;
 
-	while (node)
+	while (node != NULL)
 	{
-		p = starts_with(node->str, name);
-		if (p && *p)
-			return (p);
+		c = start_with(node->str, form);
+		if (c != NULL && *c != NULL)
+			return (c);
 		node = node->next;
 	}
 	return (NULL);
 }
-
 /**
- *_mysetenv - A new environment variable, it starts it or
-              it changes the existing one.
-* @info: Potentiala arguments structure used to mantain a prototype
-*        function that is constant.
-* Return: 0 always.
-*/
-int _mysentenv(info_t *info)
+ * my_env - prints current environment
+ * @info: pointer to struct
+ *
+ * Return: int
+ */
+int my_env(info_t *info)
 {
+	print_liststr(info->env);
+	return(0);
+}
+/**
+ *my_setenv - sets environment variable
+* @info: pointer to struct
+*
+* Return: int
+*/
+int my_setenv(info_t *info)
+{
+	char *name;
+	char *value;
+
 	if (info->argc != 3)
 	{
-		_eputs("Incorrect no of arguments\n");
+		perror("wrong argument count\n");
 		return (1);
 	}
-	if (_setenv(info, info->argv[1], info->[2]))
+
+	name = info->argv[1];
+	value = info->argv[2];
+	if (_setenv(info, name, value))
 		return (0);
-	return (1);
+	else
+		return (1);
 }
 
 /**
- * _myunsetenv - An environment variable, it removes it.
- * @info: Potential arguments stricture used to manatain a prototype
- *        function that is constant.
- * Return: 0 always.
+ * my_unsetenv - unsets an environment variable
+ * @info: Pointer to struct
+ *
+ * Return: int
  */
-int _myunsetenv(info_t *info)
+int my_unsetenv(info_t *info)
 {
-	int i;
+	int n;
 
 	if (info->argc == 1)
 	{
-		_eputs("Too few arguments.\n");
+		perror("Error: Not enough arguments\n");
 		return (1);
 	}
-	for (i = 1; i <= info->argc; i++)
-		_unsetenv(info, info->argv[i]);
-
+	for (n = 1; n <= info->argc; n++)
+	{
+		if (_unsetenv(info, info->argv[n]) != 0)
+		{
+			printf("Failed to unset env variable '%s'\n", info->argv[n]);
+			return (1);
+		}
+	}
 	return (0);
 }
 
 /**
- * populate_env_list - The linked list of the env it populates it.
- * @info : Potential arguments structure used to mantain a prototype
- *         function that is constant.
- * Return: 0 always.
+ * create_envlist - populates a linked list on env
+ * @info : Pointer to struct
+ * .
+ * Return: int
  */
-int populate_env_list(info_t *info)
+int create_envlist(info_t *info)
 {
+	ssize_t n;
 	list_t *node = NULL;
-	size_t i;
 
-	for (i = 0; environ[i]; i++)
-		add_node_end(&node, environ[i], 0);
+	for (n = 0; environ[n]; n++)
+	{
+		add_end_node(&node, environ[n]);
+	}
 	info->env = node;
 	return (0);
 }

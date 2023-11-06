@@ -77,10 +77,10 @@ typedef struct passinfo
 	char **argv;
 	char *path;
 	int argc;
-	unsigned int line_count;
+	unsigned int line_number;
 	int err_num;
 	int linecount_flag;
-	char *fname;
+	char *filename;
 	list_t *env;
 	list_t *history;
 	list_t *alias;
@@ -125,11 +125,11 @@ char *find_path(info_t *, char *, char *);
 /*lops.c */
 int loopsdh(char **);
 
-/*t_err.c */
-void _eputs(char *);
-int _eputchar(char);
-int _putfd(char c, int fd);
-int _putsfd(char *str, int fd);
+/*printchar.c */
+int putc_fd(int fd, char c);
+int puts_fd(int fd, char *string);
+int e_putc(char c);
+void e_puts(char *string);
 
 /* t_ring.c */
 int _strlen(char *);
@@ -166,12 +166,12 @@ int _isalpha(int);
 int _isdelim(char, char *);
 int _atoi(char *);
 
-/* t_erro1.c */
-int _erratoi(char *c);
+/* errors.c */
+int str_int(char *c);
 void print_error(info_t *, char *);
-int print_d(int, int);
-char *convert_number(long int, int, int);
-void remove_comments(char *);
+int print_integer(int, int);
+char *convert_num(long int, int, int);
+void replace_comments(char *);
 
 /* morebuiltin.c */
 int my_alias(info_t *info);
@@ -189,12 +189,12 @@ void clear_info(info_t *);
 void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
-/* t_envir.c */
-char *_getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
-int populate_env_list(info_t *);
+/* envir.c */
+char *_getenv(info_t *info, const char *form);
+int my_env(info_t *info);
+int my_setenv(info_t *info);
+int my_unsetenv(info_t *info);
+int create_envlist(info_t *info);
 
 /* t_getenvir.c */
 char **get_environ(info_t *);
