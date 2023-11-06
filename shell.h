@@ -173,9 +173,11 @@ int print_d(int, int);
 char *convert_number(long int, int, int);
 void remove_comments(char *);
 
-/* t_builta.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+/* morebuiltin.c */
+int my_alias(info_t *info);
+int alias_set(info_t *info, char *str);
+int alias_unset(info_t *info, char *str);
+int print_alias(list_t *node);
 
 /* t_getl.c */
 ssize_t get_input(info_t *);
