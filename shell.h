@@ -143,10 +143,10 @@ char *strdup(const char *);
 void _puts(char *);
 int _putchar(char);
 
-/* t_exi.c */
-char *_strncpy(char *, char *, int);
-char *_strncat(char *, char *, int);
-char *_strchr(char *, char);
+/* string.c */
+char *strn_cat(char *dest, char *src, size_t n);
+char *strn_cpy(char *dest, char *src, size_t n);
+char *str_chr(char *c, char s);
 
 /* t_tok.c */
 char **strtow(char *, char *);
