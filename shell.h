@@ -179,10 +179,11 @@ int alias_set(info_t *info, char *str);
 int alias_unset(info_t *info, char *str);
 int print_alias(list_t *node);
 
-/* t_getl.c */
-ssize_t get_input(info_t *);
-int _getline(info_t *, char **, size_t *);
-void sigintHandler(int);
+/* getline.c */
+ssize_t get_form(info_t *info);
+int get_line(info_t *info, char **ptr, size_t *n);
+ssize_t buff_read(info_t *info, char *buffer, size_t *n);
+ssize_t buff_input(info_t *info, char **buffer, size_t *n);
 
 /* t_infoget.c */
 void clear_info(info_t *);
@@ -205,7 +206,7 @@ int _setenv(info_t *, char *, char *);
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history_list(info_t *info, char *buf, int linecount);
+int create_history(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /* t_list.c */
