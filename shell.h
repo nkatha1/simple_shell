@@ -85,7 +85,7 @@ typedef struct passinfo
 	list_t *history;
 	list_t *alias;
 	char **environ;
-	int env_changed;
+	int change_env;
 	int status;
 
 	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory management */
@@ -185,10 +185,9 @@ int get_line(info_t *info, char **ptr, size_t *n);
 ssize_t buff_read(info_t *info, char *buffer, size_t *n);
 ssize_t buff_input(info_t *info, char **buffer, size_t *n);
 
-/* t_infoget.c */
-void clear_info(info_t *);
-void set_info(info_t *, char **);
-void free_info(info_t *, int);
+/* infor.c */
+void create_info(info_t *info, char **ar);
+void free_struct(info_t *info, int n);
 
 /* envir.c */
 char *_getenv(info_t *info, const char *form);
@@ -197,10 +196,10 @@ int my_setenv(info_t *info);
 int my_unsetenv(info_t *info);
 int create_envlist(info_t *info);
 
-/* t_getenvir.c */
-char **get_environ(info_t *);
-int _unsetenv(info_t *, char *);
-int _setenv(info_t *, char *, char *);
+/* atgetenvir.c */
+int un_setenv(info_t *info, char *c);
+char **_getenviron(info_t *info);
+int set_env(info_t *info, char *c, char *v);
 
 /* t_histo.c */
 char *get_history_file(info_t *info);

@@ -1,95 +1,105 @@
 #include "shell.h"
-
 /**
- * un_setenv - An environment variable, it removes it.
- * @info: Potential arguments structure,that is used to mantain a 
- *        prototype function that is constant.
- * Return: It returns 1 on delete, o/w 0.
- * @v: The env variable property string.
+ * un_setenv - unsets An environment variable
+ * @info: pointer to struct
+ * @c: pointer to string
+ *
+ * Return: int
  */
-int un_setenv(info_t *info, char *v)
+int un_setenv(info_t *info, char *c)
 {
+	size_t n = 0;
+	char *s;
 	list_t *node = info->env;
-	size_t i = 0;
-	char *p;
-
-	if (!node || !var)
+	
+	if (!c || !node)
 		return (0);
 
-	while (node)
+	while (node != NULL)
 	{
-		p = starts_with(node->str, v);
-		if (p && *p == '=')
+		s = start_with(node->str, c);
+		if (s && *s == '=')
 		{
-			info->env_changed = delete_node_at_index(&(info->env), i);
-			i = 0;
-			node = info->env;
-			continue;
+			info->change_env = delete_node(&(info->env), n);
+			return (1);
 		}
 		node = node->next;
-		i++;
+		n++;
 	}
-	return (info->env_changed);
+	return (0);
 }
 
 /**
  * _getenviron - The string arrray copy of our environ, it returns it.
- * @info: Potential arguments structure, that is used to manatain a 
- *        prototype function that is constant.
- * Return : It is always 0.
+ * @info: pointer to struct
+ *
+ * Return : char
  */
-char **_geteenviron(info_t *info)
+char **_getenviron(info_t *info)
 {
-	if (!info->environ || info->env_changed)
+	char **new_env;
+
+	if (!info)
+		return (NULL);
+
+	if (info->change_env || !info->environ)
 	{
-		info->environ = list_to_strings(info->env);
-		info->env_changed = 0;
+		new_env = list_strings(info->env);
+		if (new_env != NULL)
+		{
+			free(info->environ);
+			info->environ = new_env;
+			info->change_env = 0;
+		}
+		else
+		{
+			perror("list_strings failed");
+			return (NULL);
+		}
 	}
-	
 	return (info->environ);
 }
 
 /**
- * set_env - A new environment variable it starts it,
- *           or it does some changes to an existing one.
- * @info: Potential arguments structure, that is used to manatain a 
- *        prototype function that is constant.
- * @v: Env property's string variable.
- * @vl: Env propery's string value.
- * Return: It is always 0.
+ * set_env - sets an environment variable.
+ * @info: Pointer to struct
+ * @c: pointer to string
+ * @v: pointer to string
+ * .
+ * Return: int
  */
-int set_env(info_t *info, char *v, char *vl)
+int set_env(info_t *info, char *c, char *v)
 {
-	char *buf = NULL;
-	list_t *node;
-	char *p;
+	list_t *node = info->env;
+	char *buffer = NULL;
+	char *s;
 
-	if (!v || !vl)
-		return (0);
+	if (!c || !v)
+		return (-1);
 
-	buf = malloc(_strlen(v) + _strlen(vl) + 2);
-	if ( !buf)
-		return (1);
-	_strcpy(buf, v);
-	_strcat(buf, "=");
-	_strcat(buf, vl);
-	node = info->env;
+	buffer = malloc(str_len(v) + str_len(c) + 2);
+	if (buffer == NULL)
+		return (-1);
+
+	str_cpy(buffer, c);
+	str_cat(buffer, "=");
+	str_cat(buffer, v);
+
 	while (node)
 	{
-		p = starts_with(node->str, v);
-		if (p && *p == '=')
+		s = start_with(node->str, c);
+		if (s && *s == '=')
 		{
 			free(node->str);
-			node->str = buf;
-			info->env_changed = 1;
-			return (0);
+			node->str = str_dup(buffer);
+			free(buffer);
+			info->change_env = 1;
+			return (1);
 		}
 		node = node->next;
 	}
-	add_node_end(&(info->env), buf, 0);
-	free(buf);
-	info->env_changed = 1;
+	add_node(&(info->env), strdup(buffer), 0);
+	free(buffer);
+	info->change_env = 1;
 	return (0);
 }
-	     
-
