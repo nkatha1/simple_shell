@@ -149,8 +149,8 @@ char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
 
 /* t_tok.c */
-char **strtow(char *, char *);
-char **strtow2(char *, char);
+char **troh1(char *is, char *t);
+char **troh2(char *is, char *t);
 
 /* t_reel.c */
 char *_memset(char *, char, unsigned int);
