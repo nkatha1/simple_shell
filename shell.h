@@ -131,26 +131,26 @@ int puts_fd(int fd, char *string);
 int e_putc(char c);
 void e_puts(char *string);
 
-/* t_ring.c */
-char *sw(const char *, const char *);
-int _strlen(char *);
-char *_cst(char *, char *);
-int _strcmp(char *, char *);
+/* ring.c */
+char *start_with(const char *str1, const char *str2);
+int str_len(char *c);
+char *str_cat(char *dest, char *source);
+int str_cmp(char *str1, char *str2);
 
-/* t_ring1.c */
-void _puts(char *);
-char *_scp(char *);
-int _putchar(char);
-char *_dp(const char *);
+/* ring1.c */
+void _puts(char *s);
+char *str_cpy(char *dest, char *source);
+int _putchar(char c);
+char *str_dup(const char *s);
 
 /* string.c */
 char *strn_cat(char *dest, char *src, size_t n);
 char *strn_cpy(char *dest, char *src, size_t n);
 char *str_chr(char *c, char s);
 
-/* t_tok.c */
-char **troh1(char *is, char *t);
-char **troh2(char *is, char *t);
+/* tok.c */
+char **str_tow2(char *s, char t);
+char **str_tow(char *s, char *t);
 
 /* t_reel.c */
 char *_memset(char *, char, unsigned int);

@@ -1,77 +1,90 @@
 #include "shell.h"
 
 /**
- * sw - If needle starts with haystack it chacks it.
- * @hs: The searched string.
- * @ndl: The substring to be found.
+ * start_with - checks beginning of string
+ * @str1: string to be checked
+ * @str2: substring to look for
  *
- * Return: Next characters adress of hs or NULL.
+ * Return: char
  */
-char *sw(const char *hs, const char *ndl)
+char *start_with(const char *str1, const char *str2)
 {
-	while (*ndl)
-		if (*ndl++ != *hs++)
-			return (NULL);
-	return ((char *)hs);
-}
+	const char *str3 = str2;
 
-/**
- * _strlen - The leng of the str it returns it.
- * @tl: String whose length is to be checked.
- *
- * Return: Strings integers length
- */
-int _strlen(char *tl)
-{
-	int i = 0;
-
-	if (!tl)
-		return (0);
-
-	while (*s++)
-		i++;
-	return (i);
-}
-
-/**
- * _cst - The two strings, its concentates them.
- * @db: Buffers destination.
- * @sc: Buffers source.
- *
- * Return: Destination buffers pointer.
- */
-char *_cst(char *db, char *sc)
-{
-	char *ret = db;
-
-	while (*db)
-		db++;
-	while (*sc)
-		*db++ = *sc++;
-	*db = *sc;
-	return (ret);
-}
-
-/**
- *_strcmp - It does the comparison of two strings hence it 
-            it performs the lexicographic.
- *@fs: The strang that is the first.
- *@fb: The strang that is second.
- *
- * Return: s1<s2 is negative, s1>s2 positive, s1 == s2 positive.
- */
-int _strcmp(char *fs, char *fb)
-{
-	while (*fs && *fb)
+	while (*str1 && *str2)
 	{
-		if (*fs != *fb)
-			return (*fs - *fb);
-		fs++;
-		fb++;
+		if (*str2 != *str1)
+			return (NULL);
+		str1++;
+		str2++;
 	}
-	if (*fa == *fb)
-		return (0);
-	else
-		return (*fa < *fb ? -1 : 1);
+	if (*str2 == '\0')
+		return ((char *)str3);
+
+	return (NULL);
 }
 
+/**
+ * str_len - returns string length
+ * @c: pointer to String.
+ *
+ * Return: int
+ */
+int str_len(char *c)
+{
+	int n;
+
+	if (c == NULL)
+		return (0);
+
+	n = 0;
+	while (*c != '\0')
+	{
+		n++;
+		c++;
+	}
+	return (n);
+}
+
+/**
+ * str_cat - concatenates two strings
+ * @dest: Buffers destination.
+ * @source: Buffers source.
+ *
+ * Return: char
+ */
+char *str_cat(char *dest, const char *source)
+{
+	char *res = dest;
+
+	while (*dest)
+		dest++;
+	while (*source)
+		*dest++ = *source++;
+	*dest = '\0';
+	return (res);
+}
+
+/**
+ * str_cmp - compares strings
+ * @str1: first string
+ * @str2: second string
+ *
+ * Return: int
+ */
+int str_cmp(char *str1, char *str2)
+{
+	while (*str1 && *str2)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		str1++;
+		str2++;
+	}
+	if (*str1 == *str2)
+		return (0);
+	else if (*str1 > *str2)
+		return (1);
+	else
+		return (-1);
+}
