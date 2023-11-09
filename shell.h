@@ -138,10 +138,10 @@ char *starts_with(const char *, const char *);
 char *_strcat(char *, char *);
 
 /* t_ring1.c */
-char *_strcpy(char *);
-char *strdup(const char *);
 void _puts(char *);
+char *_scp(char *);
 int _putchar(char);
+char *_dp(const char *);
 
 /* string.c */
 char *strn_cat(char *dest, char *src, size_t n);
