@@ -82,7 +82,7 @@ typedef struct passinfo
 	int linecount_flag;
 	char *filename;
 	list_t *env;
-	list_t *history;
+	list_t *hist;
 	list_t *alias;
 	char **environ;
 	int change_env;
@@ -190,7 +190,7 @@ void create_info(info_t *info, char **ar);
 void free_struct(info_t *info, int n);
 
 /* envir.c */
-char *_getenv(info_t *info, const char *form);
+char *get_env(info_t *info, const char *form);
 int my_env(info_t *info);
 int my_setenv(info_t *info);
 int my_unsetenv(info_t *info);
@@ -201,12 +201,12 @@ int un_setenv(info_t *info, char *c);
 char **_getenviron(info_t *info);
 int set_env(info_t *info, char *c, char *v);
 
-/* t_histo.c */
-char *get_history_file(info_t *info);
-int write_history(info_t *info);
-int read_history(info_t *info);
-int create_history(info_t *info, char *buf, int linecount);
-int renumber_history(info_t *info);
+/* ithisto.c */
+char *get_hist(info_t *info);
+int w_history(info_t *info);
+int read_hist(info_t *info);
+int create_history(info_t *info, char *buffer, int count);
+int renum_hist(info_t *info);
 
 /* t_list.c */
 list_t *add_node(list_t **, const char *, int);

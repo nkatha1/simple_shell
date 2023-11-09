@@ -7,7 +7,7 @@
  *
  * Return: char
  */
-char *_getenv(info_t *info, const char *form)
+char *get_env(info_t *info, const char *form)
 {
 	char *c;
 	list_t *node = info->env;
