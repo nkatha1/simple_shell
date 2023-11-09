@@ -112,17 +112,17 @@ typedef struct builtin
 
 
 /** t_sloop.c */
-int hsh(info_t *, char **);
-int find_builtin(info_t *);
 void find_cmd(info_t *);
+int hsh(info_t *, char **);
 void fork_cmd(info_t *);
+int find_builtin(info_t *);
 
 /* t_pas.c */
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
 char *find_path(info_t *, char *, char *);
 
-/*lops.c */
+/* plops.c */
 int loopsdh(char **);
 
 /*printchar.c */
