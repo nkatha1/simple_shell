@@ -69,7 +69,7 @@ typedef struct liststr
  * @cmd_buf: If on chaining, adress the pointer to cmd_buf.
  * @cmd_buf_type: CMD_type ||, &&, ;
  * @readfd: fd to read the input line.
- * @histcount: Line gistory number count.
+ * @histcount: Line history number count.
  */
 typedef struct passinfo
 {
@@ -132,10 +132,10 @@ int e_putc(char c);
 void e_puts(char *string);
 
 /* t_ring.c */
+char *sw(const char *, const char *);
 int _strlen(char *);
+char *_cst(char *, char *);
 int _strcmp(char *, char *);
-char *starts_with(const char *, const char *);
-char *_strcat(char *, char *);
 
 /* t_ring1.c */
 void _puts(char *);
