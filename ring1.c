@@ -1,87 +1,96 @@
 #include "shell.h"
 
 /**
- * _puts - An input string, it prints it.
- * @rin: String to be printed.
- *
- * Return: It returns nothing.
+ * _puts - print string
+ * @s: String to be printed.
  */
-void _puts(char *rin)
+void _puts(char *s)
 {
-	int i = 0;
+	int n;
 
-	if (!rin)
+	if (!s)
 		return;
-	while (rin[i] != '\0')
+
+	for (n = 0; s[n] != '\0'; n++)
 	{
-		_putchar(rin[i]);
-		i++;
+		_putchar(s[n]);
 	}
 }
 
 /**
- * _scp -It copies a string.
- * @st: Destination.
- * @rc: Source.
+ * str_cpy - copies string.
+ * @dest: Destination string.
+ * @source: Source string
  *
- * Return: Destination pointer.
+ * Return: char
  */
-char *_scp(char *st, char *rc)
+char *str_cpy(char *dest, char *source)
 {
-	int i = 0;
+	int i;
 
-	if (st == rc || rc == 0)
-		return (st);
-	while (rc[i])
+	if (dest == source || source == NULL)
+		return (dest);
+	i = 0;
+	while (source[i])
 	{
-		st[i] = rc[i];
+		dest[i] = source[i];
 		i++;
 	}
-	st[i] = 0;
-	return (st);
+	dest[i] = '\0';
+	return (dest);
 }
 
 /**
- * _putchar - The char c to stdout, it writes it.
- * @pc: Char to print.
+ * _putchar - writes to stdout
+ * @c: character
  *
- * Return: 1 on success, -1 on error, errno set appropiately.
+ * Return: int
  */
-int _putchar(char pc)
+int _putchar(char c)
 {
+	static char buffer[WRITE_BUF_SIZE];
 	static int i;
-	static char buf[WRITE_BUF_SIZE];
 
-	if (pc == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (i >= WRITE_BUF_SIZE || c == BUF_FLUSH)
 	{
-		write(1, buf, i);
+		if (i > 0)
+		{
+			if (write(1, buffer, i) == -1);
+			return (-1);
+		}
 		i = 0;
 	}
-	if (pc !=BUF_FLUSH)
-		buf[i++] = pc;
+	if (c !=BUF_FLUSH)
+		buffer[i++] = c;
 	return (1);
 }
 
 /**
- * _dp - The string, it duplicates it.
- * @tr: String to duplicate.
+ * str_dup - duplicate string
+ * @s: String to duplicate.
  *
- * Return: Duplicated string pointer.
+ * Return: char
  */
-char *_dp(const char *tr)
+char *str_dup(const char *s)
 {
-	int length = 0;
-	char *ret;
+	char *res;
+	int len, n;
 
-	if (tr == NULL)
+	if (s == NULL)
 		return (NULL);
-	while (*tr++)
-		lenth++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
+
+	len = 0;
+	while (s[len])
+		len++;
+
+	res = malloc(sizeof(char) * (len + 1));
+	if (!res)
 		return (NULL);
-	for (length++; length--;)
-		ret[length] = *--tr;
-	return (ret);
+
+	for (n = 0; n < len; n++)
+		res[n] = s[n];
+
+	res[len] = '\0';
+
+	return (res);
 }
-
