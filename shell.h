@@ -153,9 +153,9 @@ char **str_tow2(char *s, char t);
 char **str_tow(char *s, char *t);
 
 /* t_reel.c */
-char *_memset(char *, char, unsigned int);
+void *_realloc(void *, unsigned int, unsigned int);
+char *_sm(char *, char, unsigned int);
 void ffree(char **);
-void *_realloc(void *, unsigned int, unsigned int );
 
 /* t_meme.c */
 int bfree(void **);
