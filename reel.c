@@ -1,65 +1,77 @@
 #include "shell.h"
 
 /**
- * _realloc - Block of a memory it reallocates it.
- * @ptr: Previous malloc' block that is a pntr.
- * @old_size: Previous block byte size.
- * @new_size: Size of a byte of the block that is new.
- *
- * Return: Ol'blook nameen pntr.
+ * re_alloc - reallocates a memory block
+ * @ptr: Pointer to previously allocated block
+ * @old: unsigned int
+ * @new: unsigned int
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *re_alloc(void *ptr, unsigned int old_s, unsigned int new_s)
 {
-		char *a;
+	char *c;
 
-		if (!ptr)
-			return (malloc(new_size));
-		if (!new_size)
-			return (free(ptr), NULL);
-		if (new_size == old_size)
-			return (ptr);
+	if (!ptr)
+	{
+		malloc(new_s);
+		return;
+	}
+	if (!new_s)
+	{
+		free(ptr);
+		return;
+	}
+	if (new_s == old_s)
+		return;
 
-		a = malloc(new_size);
-		if (!a)
-			return (NULL);
+	c = malloc(new_s);
+	if (!c)
+		return;
 
-		old_size = old_size < new_size ? old_size : new_size;
-		while (old_size--)
-			a[old_size} = ((char *)ptr)[old_size];
-			free(ptr);
-			return (p);
+	old_s = old_s < new_s ? old_s : new_s;
+	while (old_s--)
+		c[old_s] = ((char *)ptr)[old_s];
+
+	free(ptr);
 }
 
 /**
- **_sm - Memory with a constant byte that fills a memory.
+ **set_mem - fills a memory.
  *@m: Memory area pointer.
- *@f: Byte that is to be filled with *s.
- *@n: Byte amounts to be filled with.
- *Return: Pointer (s) area of the memory s.
+ *@f: char
+ *@n: unsigned int
+
+ *Return: char
  */
-char *_sm(char *m, char f, unsigned int n)
+char *set_mem(char *m, char f, size_t n)
 {
-	unsigned int i;
+	size_t i;
+
+	if (m == NULL)
+		return (NULL);
 
 	for (i = 0; i < n; i++)
-		m[i] = b;
+		m[i] = f;
+
 	return (m);
 }
 
 /**
- * ffree - A string of strings it frees it.
+ * ffree - Frees pointer to pointer to string
  * @sp: The string of strings.
  */
 void ffree(char **sp)
 {
 	char **b = sp;
 
-	if (!sp)
+	if (sp == NULL)
+	{
+		puts_fd(2, "pointer is null\n");
 		return;
-	while (*sp)
-		free(*sp++);
+	}
+	while (*sp != NULL)
+	{
+		free(*sp);
+		sp++;
+	}
 	free(b);
 }
-
-
-

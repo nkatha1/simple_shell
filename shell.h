@@ -117,10 +117,10 @@ int hsh(info_t *, char **);
 void fork_cmd(info_t *);
 int find_builtin(info_t *);
 
-/* t_pas.c */
-int is_cmd(info_t *, char *);
-char *dup_chars(char *, int, int);
-char *find_path(info_t *, char *, char *);
+/* pas.c */
+char *dup_char(char *path, int s, int p);
+int _cmd(info_t *info, char *file_path);
+char *path_finder(info_t *info, char *file_path, char *c);
 
 /* plops.c */
 int loopsdh(char **);
@@ -152,13 +152,13 @@ char *str_chr(char *c, char s);
 char **str_tow2(char *s, char t);
 char **str_tow(char *s, char *t);
 
-/* t_reel.c */
-void *_realloc(void *, unsigned int, unsigned int);
-char *_sm(char *, char, unsigned int);
-void ffree(char **);
+/* reel.c */
+void *re_alloc(void *ptr, unsigned int old_s, unsigned int new_s);
+char *set_mem(char *m, char f, size_t n);
+void ffree(char **sp);
 
-/* t_meme.c */
-int bfree(void **);
+/* freemem.c */
+int freemem(void **p);
 
 /* t_ato.c */
 int interact(info_t *);

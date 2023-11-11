@@ -30,7 +30,7 @@ int putc_fd(int fd, char c)
 /**
  * puts_fd - prints input string
  * @fd: file descriptor to be writtrn to
- * @str: string to print
+ * @string: string to print
  *
  * Return: int
  */

@@ -1,20 +1,50 @@
 #include "shell.h"
+/**
+ * dup_char - duplicates characters
+ * @path: path string
+ * @s: integer
+ * @p: integer
+ *
+ * Return: char
+ */
+char *dup_char(const char *path, int s, int p)
+{
+	int i, n = 0;
+	char *buffer = NULL;
+
+	if (path == NULL || s < 0 || p < 0 || s >= p)
+		return (NULL);
+
+	buffer = (char *)malloc((p - s + 1) * sizeof(char));
+	if (buffer == NULL)
+		return (NULL);
+
+	for (i = s; i < p; i++)
+	{
+		if (path[i] != ':')
+			buffer[n++] = path[i];
+	}
+	buffer[n] = '\0';
+	return (buffer);
+}
 
 /**
- * is_cmd - If the file is a command that is executable, it determines it.
- * @info: Struct info.
- * @path: The fil's path.
+ * _cmd - determines if file is executable
+ * @info: pointer to Struct
+ * @file_path: pointer to string
  *
- * Return: If it is true 1, 0 o/w.
+ * Return: Int.
  */
-int is_cmd(info_t *info, char *path)
+int _cmd(info_t *info, char *file_path)
 {
 	struct stat st;
-
 	(void)info;
-	if (!path || stat(path, &st))
-		return (0);
 
+	if (!file_path || stat(file_path, &st) != 0)
+	{
+		perror("Stat Error");
+		return (0);
+	}
 	if (st.st_mode & S_IFREG)
 	{
 		return (1);
@@ -23,64 +53,44 @@ int is_cmd(info_t *info, char *path)
 }
 
 /**
- * dup_chars _ The characters, it duplicates them.
- * @pathstr: String's path.
- * @start: Index that is starting.
- * @stop: Index that is stopping.
+ * path_finder - finds The path string.
+ * @info: pointer to struct
+ * @file_path: Strings path.
+ * @c: Command to find.
  *
- * Return: The new buffer's pointer.
+ * Return: char.
  */
-char *dup_chars(char *pathstr, int start, int stop)
+char *path_finder(info_t *info, char *file_path, char *c)
 {
-	static char buf[1024];
-	int i = 0, k = 0;
-
-	for (k = 0, i = start; i <stop; i++)
-		if (pathstr[i] != ':')
-			buf[k++] = pathstr[i];
-	buf[k] = 0;
-	return (buf);
-}
-
-/**
- * find_path - The path string cmd it finds it.
- * @info: Struct info
- * @pathstr: Strings path.
- * @cmd: Cmd to find.
- *
- * Return: If found, it returns the full path of the cmd or NULL.
- */
-char *find_path(info_t *info, char *pathstr, char *cmd)
-{
-	int i + 0, curr_pos = 0;
 	char *path;
+	int i;
+	int pos = 0;
 
-	if (!pathstr)
+	if (!file_path)
 		return (NULL);
-	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
+	if ((str_len(c) > 2) && start_with(c, "./"))
 	{
-		if (is_cmd(info, cmd))
-			return (cmd);
+		if (_cmd(info, c))
+			return (dup_char(c, 0, strlen(c));
 	}
-	while (1)
+	for (i = 0; file_path[i]; i++)
 	{
-		if (!pathstr[i] || pathstr[i] == ';')
+		if (file_path[i] == ';')
 		{
-			path = dup_chars(pathstr, curr_pos, i);
+			path = dup_char(file_path, pos, i);
 			if (!*path)
-				_strcat(path, cmd);
+				str_cat(path, c);
 			else
 			{
-				_strcat(path, "/");
-				_strcat(path, cmd);
+				str_cat(path, "/");
+				str_cat(path, c);
 			}
-			if (is_cmd(info, path))
+			if (_cmd(info, path))
 				return (path);
-			if (!pathstr[i])
-				break;
-			curr_pos = i;
+
+			free(path);
+			pos = i + 1;
 		}
-		i++;
 	}
 	return (NULL);
 }
