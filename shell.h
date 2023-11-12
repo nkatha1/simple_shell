@@ -209,11 +209,11 @@ int create_history(info_t *info, char *buffer, int count);
 int renum_hist(info_t *info);
 
 /* t_list.c */
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
 void free_list(list_t **);
+size_t print_list_str(const list_t *);
+list_t *add_node(list_t **, const char *, int);
+int delete_node_at_index(list_t **, unsigned int);
+list_t *add_node_end(list_t **, const char *, int);
 
 /* t_list1.c */
 size_t print_list(const list_t *);
