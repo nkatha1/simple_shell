@@ -17,6 +17,8 @@
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
+#define ALIAS_REPLACE_LIMIT 10
+
 /* Command chaining */
 #define CMD_NORM 0
 #define CMD_OR 1
@@ -56,15 +58,15 @@ typedef struct liststr
  * @argv: Strings array that are generated from arg.
  * @path: Current command path's string.
  * @argc: Count argument.
- * @line_count: Error count.
+ * @line_number: Error count.
  * @err_num: Error code that is for exit()s.
  * @linecount_flag: This is the input line if on count.
- * @fname: Filename's program.
+ * @filename: Filename's program.
  * @env: Copy of environ local linked list.
  * @environ: Modified custom copy from LL env of environ.
  * @history: History's node.
  * @alias: Alias node.
- * @env_changed: If environ was changed it is on.
+ * @change_env: If environ was changed it is on.
  * @status: The last exec'd command it returns it status.
  * @cmd_buf: If on chaining, adress the pointer to cmd_buf.
  * @cmd_buf_type: CMD_type ||, &&, ;
@@ -111,11 +113,11 @@ typedef struct builtin
 }builtin_table;
 
 
-/** t_sloop.c */
-void find_cmd(info_t *);
-int hsh(info_t *, char **);
-void fork_cmd(info_t *);
-int find_builtin(info_t *);
+/** sloop.c */
+void find_command(info_t *info);
+int shel(info_t *info, char **am);
+void fork_command(info_t *info);
+int check_builtin(info_t *info);
 
 /* pas.c */
 char *dup_char(char *path, int s, int p);
@@ -160,7 +162,7 @@ void ffree(char **sp);
 /* freemem.c */
 int freemem(void **p);
 
-/* t_ato.c */
+/* ato.c */
 int interact(info_t *);
 int _isalpha(int);
 int _isdelim(char, char *);
@@ -209,25 +211,25 @@ int create_history(info_t *info, char *buffer, int count);
 int renum_hist(info_t *info);
 
 /* t_list.c */
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
-void free_list(list_t **);
+list_t *add_node(list_t **head, const char *str, int n);
+list_t *add_node_end(list_t **head, const char *str, int n);
+size_t print_list_str(const list_t *p);
+int delete_node_at_index(list_t **head, unsigned int index);
+void free_list(list_t **headptr);
 
-/* t_list1.c */
-size_t print_list(const list_t *);
-char **string_list(list_t *);
-ssize_t get_node_index(list_t *, list_t *);
-size_t list_len(const list_t *);
-list_t *node_starts_with(list_t *, char *, char);
+/* list.c */
+size_t print_list(const list_t *f);
+char **string_list(list_t *head);
+ssize_t get_node(const list_t *head, const list_t *node);
+size_t listlen(const list_t *f);
+list_t *node_start(list_t *node, char *s, char d);
 
-/* t_varsac.c */
-int is_chain(info_t *, char *, size_t *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
-int replace_vars(info_t *);
-int replace_string(char **, char *);
+/* varsac.c */
+int replace_str(char **former, char *current);
+int chain_delim(info_t *info, char *buffer, size_t *n);
+int rep_alias(info_t *info);
+void checkchain(info_t *info, char *buffer, size_t *n, size_t i, size_t len);
+int rep_variables(info_t *info);
 
 int shell_exit(info_t *info);
 int chadir(info_t *info); 

@@ -1,155 +1,164 @@
 #include "shell.h"
+/**
+ * replace_str - function that replaces string
+ * @former: pointer to pointer to old string
+ * @current: pointer to string
+ *
+ * Return: int
+ */
+int replace_str(char **former, char *current)
+{
+	char *new_str = str_dup(current);
+
+	if (!new_str)
+		return (-1);
+
+	free(*former);
+	*former = new_str;
+	return (0);
+}
 
 /**
- * is_chain -If the current character in the buffer is a chain delimeter
- * 		it tests that.
- * @info: Struct parameter.
- * @buf: Character's buffer.
- * @p: In buffer current position adress.
+ * chain_delim - tests if current character is a chain delimeter
+ * @info: pointer to Struct
+ * @buffer: pointer to memory area
+ * @n: current position adress.
  *
- * Return: If it is a chain delimeter returns 1, o/w 0.
+ * Return: Int
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int chain_delim(info_t *info, char *buffer, size_t *n)
 {
-	size_t j = *p;
+	size_t j = *n;
 
-	if (buf[j] == '|' && buf [j + 1]  == '|')
+	if (buffer[j] == '&' && buffer[j + 1] == '&')
 	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_OR;
-	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
-	{
-		buf[j] = 0;
+		buffer[j] = 0;
 		j++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* E.O.C found */
+	else if (buffer[j] == '|' && buffer[j + 1]  == '|')
 	{
-		buf[j] = 0; /* Semicolon replace with null */
+		buffer[j] = 0;
+		j++;
+		info->cmd_buf_type = CMD_OR;
+	}
+	else if (buffer[j] == ';')
+	{
+		buffer[j] = '\0';
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*p = j;
+	*n = j;
 	return (1);
 }
 /**
- * check_chain - Based on last status, it checks if we should continue chaining
- * @info: Struct parameter.
- * @buf: Buffers character.
- * @p: Current position adress in buffer.
- * @i: Position that is starting in buffer.
- * @len: The buffers length.
+ * rep_alias - replaces alias
+ * @info: pointer to struct
  *
- * Return: void
+ * Return: int
  */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+int rep_alias(info_t *info)
 {
-	size_t j = *p;
+	list_t *node;
+	char *c;
+	int n;
 
-	if (info->cmd_buf_type == CMD_AND)
+	for (n = 0; n < ALIAS_REPLACE_LIMIT; n++)
 	{
-		if (info->status)
+		node = node_start(info->alias, info->argv[0], '=');
+		if (node == NULL)
+			return (1);
+
+		free(info->argv[0]);
+
+		c = str_chr(node->str, '=');
+		if (c == NULL)
+			return (1);
+
+		c = str_dup(c + 1);
+		if (c == NULL)
+			return (1);
+		info->argv[0] = c;
+	}
+	return (0);
+}
+
+/**
+ * checkchain - checks if we should continue chaining
+ * @info: pointer to struct
+ * @buffer: pointer to string
+ * @n: pointer to address
+ * @i: starting buffer position
+ * @len: length of buffer
+ */
+void checkchain(info_t *info, char *buffer, size_t *n, size_t i, size_t len)
+{
+	size_t j = *n;
+
+	if (info->cmd_buf_type == CMD_OR)
+	{
+		if (info->status == NULL)
 		{
-			buf[i] = 0;
+			buffer[i] = 0;
 			j = len;
 		}
 	}
-
-if (info->cmd_buf_type == CMD_OR)
-{
-	if (!info->status)
+	if (info->cmd_buf_type == CMD_AND)
 	{
-		buf[i] = 0;
-		j = len;
+		if (info->status != NULL)
+		{
+			buffer[i] = 0;
+			j = len;
+		}
 	}
+	*n = j;
 }
-
-*p = j;
-
 /**
- * replace_alias - In a tokenized string, it replaces an alias.
- * @info: Struct parameter.
+ * rep_variables - replaces the variables.
+ * @info: pointer to struct
  *
- * Return: 1 if it it replaced o/w 0.
+ * Return: Int
  */
-int replace_alias(info_t *info)
+int rep_variables(info_t *info)
 {
+	list_t *node;
 	int i;
-	list_t *node;
-	char *p;
-
-	for (i = 0; i < 10; i++)
-	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
-		if (!node)
-			return (0);
-		free(info->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return (0);
-		p = _strdup(p + 1);
-		if (!p)
-			return (0);
-		info->argv[0] = p;
-	}
-	return (1);
-}
-
-/**
- * replace_vars - In the tokenized string it replaces the vars.
- * @info: Struct parameter.
- *
- * Return: If replaced 1, o/w 0.
- */
-int replace_vars(info_t *info)
-{
-	int i = 0;
-	list_t *node;
+	char *convert_status;
+	char *pid_str, val;
 
 	for (i = 0; info->argv[i]; i++)
 	{
 		if (info->argv[i][0] != '$' || !info->argv[i][1])
 			continue;
 
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!str_cmp(info->argv[i], "$?"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)))
+			convert_status = str_dup(convert_num(info->status, 10, 0));
+			if (convert_status == NULL)
+				return (1);
+			replace_str(&(info->argv[i]), convert_status);
 			continue;
 		}
-		if (!_strcmp(info->argv[i], "$$"))
+		if (!str_cmp(info->argv[i], "$$"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
+			pid_str = str_dup(convert_num(getpid(), 10, 0));
+			if (pid_str == NULL)
+				return (1);
+			replace_str(&(info->argv[i]), pid_str);
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		node = node_start(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') +1));
+			val = str_dup(str_chr(node->str, '=') + 1);
+			if (val == NULL)
+				return (1);
+			replace_str(&(info->argv[i]), val);
 			continue;
 		}
-		replace_string(&info->argv[i], _strdup(""));
-
+		perror("Error: Unrecognized variable");
+		replace_str(&info->argv[i], str_dup(""));
 	}
 	return (0);
 }
-
-/**
- * replace_string _ The string, it replaces it.
- * @old: Old string adress.
- * @new: The string that is new.
- *
- * Return: If replaced 1, o/w 0.
- */
-int replace_string(char **old, char *new)
-{
-	free(*old);
-	*old = new;
-	return (1);
-}
-
