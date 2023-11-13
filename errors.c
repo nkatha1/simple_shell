@@ -10,7 +10,7 @@ int print_integer(int fd, int n)
 {
 	int i = 0, j;
 	int c[12];
-	
+
 	if (fd != 1)
 		fd = 2;
 
@@ -37,7 +37,7 @@ int print_integer(int fd, int n)
 		_putchar('0' + c[i]);
 		j++;
 	}
-	return(j);
+	return (j);
 }
 /**
  * print_error - prints error message
@@ -65,7 +65,7 @@ void print_error(info_t *info, char *str)
 char *convert_num(long int n, int base, int flags)
 {
 	static char buffer[100];
-	static char str[] = "0123456789ABCDEF";
+	static const char str[] = "0123456789ABCDEF";
 	char *ptr;
 	unsigned long int k = (n < 0 && !(flags & CONVERT_UNSIGNED)) ? -n : n;
 

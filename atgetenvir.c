@@ -11,7 +11,7 @@ int un_setenv(info_t *info, char *c)
 	size_t n = 0;
 	char *s;
 	list_t *node = info->env;
-	
+
 	if (!c || !node)
 		return (0);
 
@@ -30,7 +30,7 @@ int un_setenv(info_t *info, char *c)
 }
 
 /**
- * _getenviron - The string arrray copy of our environ, it returns it.
+ * **_getenviron - The string arrray copy of our environ, it returns it.
  * @info: pointer to struct
  *
  * Return : char

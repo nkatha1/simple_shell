@@ -36,9 +36,9 @@ int get_line(info_t *info, char **ptr, size_t *len)
 			free(c);
 		return (-1);
 	}
-	
+
 	strn_cat(ptr1, buffer + n, t - n);
-	
+
 	i += t - n;
 	n = t;
 	c = ptr1;
@@ -65,7 +65,7 @@ ssize_t buff_read(info_t *info, char *buffer, size_t *n)
 
 	if (*n != 0)
 		return (0);
-	
+
 	i = read(info->readfd, buffer, READ_BUF_SIZE);
 	if (i < 0)
 	{
@@ -79,7 +79,7 @@ ssize_t buff_read(info_t *info, char *buffer, size_t *n)
 /**
  * buff_input - saves commands chained together
  * @buffer:vpointer to string pointer
- * *info: pointer to struct
+ * @info: pointer to struct
  * @n: pointer to a size_t
  *
  * Return: ssize_t
@@ -146,7 +146,6 @@ ssize_t get_form(info_t *info)
 	{
 		j = i;
 		s = buffer + i;
-		
 		i = j + 1;
 
 		if (i >= k)

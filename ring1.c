@@ -55,12 +55,12 @@ int _putchar(char c)
 	{
 		if (i > 0)
 		{
-			if (write(1, buffer, i) == -1);
+			if (write(1, buffer, i) == -1)
 			return (-1);
 		}
 		i = 0;
 	}
-	if (c !=BUF_FLUSH)
+	if (c != BUF_FLUSH)
 		buffer[i++] = c;
 	return (1);
 }

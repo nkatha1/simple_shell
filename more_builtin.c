@@ -100,7 +100,7 @@ int print_alias(list_t *node)
 
 	if (node == NULL)
 		return (1);
-	
+
 	c = strchr(node->str, '=');
 	if (c == NULL)
 		return (1);

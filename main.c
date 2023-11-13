@@ -25,7 +25,7 @@ int main(int a, char **b)
 			perror("Failure opening file");
 
 			if (errno == EACCES)
-				puts_fd(2,"Permission denied\n");
+				puts_fd(2, "Permission denied\n");
 			if (errno == ENOENT)
 			{
 				puts_fd(2, "File not found\n");

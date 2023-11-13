@@ -9,23 +9,23 @@
 int putc_fd(int fd, char c)
 {
 	static char buffer[WRITE_BUF_SIZE];
-	static int n = 0;
+	static int n;
 
-	 if (n >= WRITE_BUF_SIZE || c == BUF_FLUSH)
-	 {
-		 if (n > 0)
-		 {
-			 write(fd, buffer, n);
-			 n = 0;
-		 }
-		 if (c == BUF_FLUSH)
-			 write(fd, &c, 1);
-	 }
-	 if (c != BUF_FLUSH)
-	 {
-		 buffer[n++] = c;
-	 }
-	 return (1);
+	if (n >= WRITE_BUF_SIZE || c == BUF_FLUSH)
+	{
+		if (n > 0)
+		{
+			write(fd, buffer, n);
+			n = 0;
+		}
+		if (c == BUF_FLUSH)
+			write(fd, &c, 1);
+	}
+	if (c != BUF_FLUSH)
+	{
+		buffer[n++] = c;
+	}
+	return (1);
 }
 /**
  * puts_fd - prints input string

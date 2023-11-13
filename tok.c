@@ -1,8 +1,7 @@
 #include "shell.h"
 
 /**
-
-* **str_tow - splits string
+* **str_tow2 - splits string
 * @s: String pointer
 * @t: Delimeter.
 *
@@ -19,7 +18,7 @@ char **str_tow2(char *s, char t)
 	for (a = 0; s[a] != '\0'; a++)
 	{
 		if (s[a] == t)
-		       n++;
+			n++;
 	}
 	if (n == 0)
 		return (NULL);
@@ -29,7 +28,7 @@ char **str_tow2(char *s, char t)
 	a = 0;
 	b = 0;
 	c = 0;
-	while (b <n)
+	while (b < n)
 	{
 		while (s[a] != t && s[a] != '\0')
 		{
@@ -68,7 +67,7 @@ char **str_tow(char *s, char *t)
 	char **p;
 	int a, b, c, d, e;
 	int n = 0;
-	
+
 	if (s == NULL || s[0] == '\0')
 		return (NULL);
 	if (t == NULL)

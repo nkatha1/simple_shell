@@ -71,7 +71,7 @@ char *path_finder(info_t *info, char *file_path, char *c)
 	if ((str_len(c) > 2) && start_with(c, "./"))
 	{
 		if (_cmd(info, c))
-			return (dup_char(c, 0, strlen(c));
+			return (dup_char(c, 0, strlen(c)));
 	}
 	for (i = 0; file_path[i]; i++)
 	{

@@ -3,7 +3,7 @@
 /**
  * renum_hist - renumbers history.
  * @info: Pointer to struct
- * 
+ *
  * Return : int
  */
 int renum_hist(info_t *info)
@@ -103,7 +103,7 @@ int w_history(info_t *info)
 	list_t *node = NULL;
 	int fd;
 	char *file;
-       
+
 	file = get_hist(info);
 	if (file == NULL)
 		return (-1);

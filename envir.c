@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _getenv - The value of an environment variable, it gets it.
+ * get_env - The value of an environment variable, it gets it.
  * @info: pointer to struct
- * @name: pointer to string
+ * @form: pointer to string
  *
  * Return: char
  */
@@ -30,7 +30,7 @@ char *get_env(info_t *info, const char *form)
 int my_env(info_t *info)
 {
 	print_liststr(info->env);
-	return(0);
+	return (0);
 }
 /**
  *my_setenv - sets environment variable

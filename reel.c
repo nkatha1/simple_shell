@@ -3,8 +3,10 @@
 /**
  * re_alloc - reallocates a memory block
  * @ptr: Pointer to previously allocated block
- * @old: unsigned int
- * @new: unsigned int
+ * @old_s: unsigned int
+ * @new_s: unsigned int
+ *
+ * Return: void
  */
 void *re_alloc(void *ptr, unsigned int old_s, unsigned int new_s)
 {
@@ -39,7 +41,6 @@ void *re_alloc(void *ptr, unsigned int old_s, unsigned int new_s)
  *@m: Memory area pointer.
  *@f: char
  *@n: unsigned int
-
  *Return: char
  */
 char *set_mem(char *m, char f, size_t n)

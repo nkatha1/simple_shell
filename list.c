@@ -65,11 +65,11 @@ list_t *add_node(list_t **head, const char *f, int n)
 	newhead->num = n;
 	if (str)
 	{
-		newhead->f=str_dup(f);
+		newhead->f = str_dup(f);
 		if (!newhead->f)
 		{
 			free(newhead);
-			return(NULL);
+			return (NULL);
 		}
 	}
 	newhead->next = *head;

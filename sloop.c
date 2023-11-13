@@ -128,15 +128,14 @@ void fork_command(info_t *info)
 /**
  * check_builtin - find builtin command
  * @info: Pointer to structt
- * 
+ *
  * Return: int
  */
 int check_builtin(info_t *info)
 {
 	int i;
 	int ret = -1;
-	builtin_table bltintabl[] = 
-	{
+	builtin_table bltintabl[] = {
 		{"exit", my_exit},
 		{"env", my_env},
 		{"setenv", my_setenv},

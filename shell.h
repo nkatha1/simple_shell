@@ -23,7 +23,7 @@
 #define CMD_NORM 0
 #define CMD_OR 1
 #define CMD_AND 2
-#define CMD_CHAIN 3 
+#define CMD_CHAIN 3
 
 /* Convert_number() */
 #define CONVERT_LOWERCASE 1
@@ -49,11 +49,11 @@ typedef struct liststr
 	int num;
 	char *str;
 	struct liststr *next;
-}list_t;
+} list_t;
 
 /**
  * struct passinfo - This one contains the pseudo-arguments to pass into a fn,
- * 			allowing a prototype that is uniform for struct pointer fn.
+ *	allowing a prototype that is uniform for struct pointer fn.
  * @arg: Generates string containing arguments from getline.
  * @argv: Strings array that are generated from arg.
  * @path: Current command path's string.
@@ -64,7 +64,7 @@ typedef struct liststr
  * @filename: Filename's program.
  * @env: Copy of environ local linked list.
  * @environ: Modified custom copy from LL env of environ.
- * @history: History's node.
+ * @hist: History's node.
  * @alias: Alias node.
  * @change_env: If environ was changed it is on.
  * @status: The last exec'd command it returns it status.
@@ -94,7 +94,7 @@ typedef struct passinfo
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
-}info_t;
+} info_t;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL}
@@ -102,15 +102,15 @@ typedef struct passinfo
 
 /**
  * struct builtin - The builtin string it contains it and a fn that
- * 			is related.
+ *		is related.
  * @type: Command flag of the builtin.
  * @func: Function
  */
-typedef struct builtin 
+typedef struct builtin
 {
 	char *type;
 	int (*func)(info_t *);
-}builtin_table;
+} builtin_table;
 
 
 /** sloop.c */
@@ -232,7 +232,7 @@ void checkchain(info_t *info, char *buffer, size_t *n, size_t i, size_t len);
 int rep_variables(info_t *info);
 
 int shell_exit(info_t *info);
-int chadir(info_t *info); 
+int chadir(info_t *info);
 
 #endif
 
