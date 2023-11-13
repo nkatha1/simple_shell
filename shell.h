@@ -210,14 +210,14 @@ int read_hist(info_t *info);
 int create_history(info_t *info, char *buffer, int count);
 int renum_hist(info_t *info);
 
-/* t_list.c */
-list_t *add_node(list_t **head, const char *str, int n);
-list_t *add_node_end(list_t **head, const char *str, int n);
-size_t print_list_str(const list_t *p);
-int delete_node_at_index(list_t **head, unsigned int index);
-void free_list(list_t **headptr);
-
 /* list.c */
+void free_l(list_t **headptr);
+size_t print_str_list(const list_t *n);
+list_t *add_node(list_t **head, const char *f, int n);
+int delete_node(list_t **head, unsigned int index);
+list_t *add_endnode(list_t **head, const char *f, int n);
+
+/* more_lists.c */
 size_t print_list(const list_t *f);
 char **string_list(list_t *head);
 ssize_t get_node(const list_t *head, const list_t *node);

@@ -1,123 +1,169 @@
 #include "shell.h"
 
 /**
-* print_list - Prints elements of a linked list.
-* @f: pointer to list_t node
-* *
-* Return: The list size.
-*/
-size_t print_list(const list_t *f)
+ * free_l - frees nodes of a list
+ * @headptr: pointer to pointer to list_t
+ */
+void free_l(list_t **headptr)
 {
-	size_t n;
+	list_t *node, *next_node, *head;
 
-	n = 0;
-	while (f != NULL)
+	if (!headptr || !*headptr)
+		return;
+	head = *headptr;
+	node = head;
+	while (node)
 	{
-	_puts(convert_num(f->num, 10, 0));
-	_putchar(' ');
-	_putchar(': ');
-	_puts("\n");
-	_puts(f->str ? f->str : "(nil)");
-	f = f->next;
-	n++;
+		next_node = node->next;
+		free(node->str);
+		free(node);
+		node = next_node;
 	}
-	return (n);
+	*headptr = NULL;
 }
 
 /**
-* string_list - returns string array list
-* @head: pointer to list_t node
-*
-* Return: char
-*/
-char **string_list(list_t *head)
+ * print_str_list - prints elements of a linked list
+ * @n: pointer to list_t
+ *
+ * Return: size_t
+ */
+size_t print_str_list(const list_t *n)
 {
-	size_t i,j;
-	size_t n = list_len(head);
-	list_t *node = head;
-	char **str;
-	char *c;
+	size_t j;
 
-	if(n == NULL || !head == NULL)
-		return (NULL);
-
-	str = malloc(sizeof(char *) * (n + 1));
-	if (!str)
-		return (NULL);
-	for (i = 0; node; node = node->next, i++)
+	j = 0;
+	while (n != NULL)
 	{
-		str[i] = str_dup(node->str);
-		if (!str[i])
-		{
-			return (NULL);
+		_puts(n->str ? n->str : "(nil)");
+		_puts("\n");
+		n = n->next;
+		j++;
+	}
+	return (j);
+}
 
-			for (j = 0; j < i; j++)
-				free(str[j]);
-			free(str);
+/**
+ * add_node - Add a node at the start of a list
+ * @head: Pointer to pointer to list_t
+ * @f: pointer to constant char
+ * @n: Index node
+ *
+ * Return: list_t
+ */
+list_t *add_node(list_t **head, const char *f, int n)
+{
+	list_t *newhead;
+
+	if (head == NULL)
+		return (NULL);
+	newhead = malloc(sizeof(list_t));
+	if (newhead == NULL)
+		return (NULL);
+
+	set_mem((void *)newhead, 0, sizeof(list_t));
+	newhead->num = n;
+	if (str)
+	{
+		newhead->f=str_dup(f);
+		if (!newhead->f)
+		{
+			free(newhead);
+			return(NULL);
+		}
+	}
+	newhead->next = *head;
+	*head = newhead;
+	return (newhead);
+}
+
+/**
+ * delete_node - At a given index, it deletes a node
+ * @head: First node pointer address
+ * @index: Node index to delete
+ *
+ * Return: int
+ */
+int delete_node(list_t **head, unsigned int index)
+{
+	unsigned int n;
+	list_t *node, *prev_node;
+
+	if (!head || !*head)
+		return (0);
+
+	if (!index)
+	{
+		node = *head;
+		*head = (*head)->next;
+		free(node->str);
+		free(node);
+		return (1);
+	}
+
+	n = 0;
+	node = *head;
+	while (node != NULL)
+	{
+		if (n == index)
+		{
+			prev_node->next = node->next;
+			free(node);
+			free(node->str);
+			return (1);
+		}
+		n++;
+		prev_node = node;
+		node = node->next;
+	}
+	return (0);
+}
+
+/**
+ * add_endnode - adds a node To the end of a list
+ * @head: Head node pointer adress
+ * @f: Field node's string
+ * @n : Index node used by history
+ *
+ * Return: list_t
+ */
+list_t *add_endnode(list_t **head, const char *f, int n)
+{
+	list_t *newnode;
+	list_t *node;
+
+	if (!head)
+		return (NULL);
+
+	node = *head;
+	newnode = malloc(sizeof(list_t));
+	if (!newnode)
+		return (NULL);
+
+	set_mem((void *)newnode, 0, sizeof(list_t));
+	newnode->n = n;
+
+	newnode->str;
+	set_mem((void *)newnode, 0, sizeof(list_t));
+	newnode->n = n;
+	if (str)
+	{
+		newnode->str = str_dup(str);
+		if (!newnode->str)
+		{
+			free(newnode);
 			return (NULL);
 		}
 	}
-	str[n] = NULL;
-	return (str);
-}
-
-/**
-* get_node - gets The index of a node
-* @head: pointer to list_t
-* @node: pointer to a list_t
-*
-* Return: ssize_t
-*/
-ssize_t get_node(const list_t *head, const list_t *node)
-{
-	size_t n = 0;
-
-	while (head != NULL)
+	if (node)
 	{
-		if (head == node)
-			return (n);
-		head = head->next;
-		n++;
+		while (node->next)
+			node = node->next;
+		node->next = newnode;
 	}
-	return (-1);
-}
+	else
+		*head = newnode;
 
-/**
-* listlen - determines linked list length
-* @f : pointer to node
-*
-* Return: size_t
-*/
-size_t listlen(const list_t *f)
-{
-	size_t n = 0;
-
-	while (f)
-	{
-		f = f->next;
-		n++;
-	}
-	return (n);
-}
-
-/**
-* node_starts - returns node whose string starts with a pointer
-* @node: pointer to list_t
-* @s: pointer to string
-* @d : Character that is next
-* 
-* Return: list_t
-*/
-list_t *node_start(list_t *node, char *s, char d)
-{
-	char *c = NULL;
-
-	while (node != NULL)
-	{
-		c = start_with(node->str, s);
-		if (c != NULL && ( d == -1 || *c == d))
-			return (node);
-		node = node->next;
-	}
-	return (NULL);
+	newnode->next = NULL;
+	return (newnode);
 }
