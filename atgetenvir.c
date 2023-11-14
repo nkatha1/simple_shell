@@ -44,7 +44,7 @@ char **_getenviron(info_t *info)
 
 	if (info->change_env || !info->environ)
 	{
-		new_env = list_strings(info->env);
+		new_env = string_list(info->env);
 		if (new_env != NULL)
 		{
 			free(info->environ);

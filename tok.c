@@ -74,8 +74,8 @@ char **str_tow(char *s, char *t)
 		t = " ";
 	for (a = 0; s[a] != '\0'; a++)
 	{
-		if (!is_delim(s[a], t) && (is_delim(s[a + 1], t ||
-						s[a + 1] == '\0')))
+		if (!_isdelim(s[a], t) && (_isdelim(s[a + 1], t) ||
+						s[a + 1] == '\0'))
 			n++;
 	}
 	if (n == 0)
@@ -88,11 +88,11 @@ char **str_tow(char *s, char *t)
 	b = 0;
 	while (b < n)
 	{
-		while (is_delim(s[a], t))
+		while (_isdelim(s[a], t))
 			a++;
 
 		c = 0;
-		while (!is_delim(s[a + c], t) && s[a + c])
+		while (!_isdelim(s[a + c], t) && s[a + c])
 			c++;
 
 		p[b] = malloc((c + 1) * sizeof(char));

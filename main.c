@@ -19,7 +19,7 @@ int main(int a, char **b)
 	}
 	if (a == 2)
 	{
-		fd = open(b[1], 0_RDWR);
+		fd = open(b[1], O_RDWR);
 		if (fd == -1)
 		{
 			perror("Failure opening file");
@@ -36,6 +36,6 @@ int main(int a, char **b)
 	}
 	create_envlist(info);
 	read_hist(info);
-	hsh(info, b);
+	shel(info, b);
 	return (EXIT_SUCCESS);
 }

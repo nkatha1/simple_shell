@@ -98,7 +98,7 @@ void checkchain(info_t *info, char *buffer, size_t *n, size_t i, size_t len)
 
 	if (info->cmd_buf_type == CMD_OR)
 	{
-		if (info->status == NULL)
+		if (!info->status)
 		{
 			buffer[i] = 0;
 			j = len;
@@ -106,7 +106,7 @@ void checkchain(info_t *info, char *buffer, size_t *n, size_t i, size_t len)
 	}
 	if (info->cmd_buf_type == CMD_AND)
 	{
-		if (info->status != NULL)
+		if (info->status)
 		{
 			buffer[i] = 0;
 			j = len;
@@ -125,7 +125,7 @@ int rep_variables(info_t *info)
 	list_t *node;
 	int i;
 	char *convert_status;
-	char *pid_str, val;
+	char *pid_str, *val;
 
 	for (i = 0; info->argv[i]; i++)
 	{

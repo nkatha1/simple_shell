@@ -32,13 +32,13 @@ int read_hist(info_t *info)
 	struct stat st;
 	int n, fd, count, form;
 	ssize_t len, size = 0;
-	char *buffer = NULL
+	char *buffer = NULL;
 	char *file = get_hist(info);
 
 	if (file == NULL)
 		return (0);
 
-	fd = open(file, 0_RDWR);
+	fd = open(file, O_RDWR);
 	free(file);
 
 	if (fd == -1)
@@ -76,11 +76,11 @@ int read_hist(info_t *info)
 		if (buffer[n] == '\n')
 		{
 			buffer[n] = '\0';
-			build_hist(info, buffer + form, count++);
+			create_history(info, buffer + form, count++);
 			form = n + 1;
 		}
 	if (form != n)
-		build_hist(info, buffer + form, count++);
+		create_history(info, buffer + form, count++);
 
 	free(buffer);
 	info->histcount = count;
@@ -115,10 +115,10 @@ int w_history(info_t *info)
 
 	for (node = info->hist; node; node = node->next)
 	{
-		puts_fd(node->str, fd);
-		put_fd('\n', fd);
+		puts_fd(fd, node->str);
+		putc_fd(fd, '\n');
 	}
-	put_fd(BUF_FLUSH, fd);
+	putc_fd(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
@@ -133,19 +133,20 @@ char *get_hist(info_t *info)
 {
 	char *s;
 	char *buffer;
+	size_t buffer_size;
 
 	s = get_env(info, "HOME=");
 	if (s == NULL)
 		return (NULL);
 
-	buffer = malloc(sizeof(char) * (str_len(s) + str_len(HIST_FILE) + 2));
+	buffer_size = str_len(s) + str_len(HIST_FILE) + 2;
+	buffer = malloc(sizeof(char) * buffer_size);
 	if (buffer == NULL)
 		return (NULL);
 
 	str_cpy(buffer, s);
 	str_cat(buffer, "/");
 	str_cat(buffer, HIST_FILE);
-
 	buffer[buffer_size - 1] = '\0';
 
 	return (buffer);
