@@ -2,16 +2,17 @@
 
 /**
  * main - The point of entry.
- * @ac: The argument count.
- * @av: The argument vector.
+ * @a: The argument count.
+ * @b: The argument vector.
  *
  * Return: On success 0, on error 1.
  */
 int main(int a, char **b)
 {
-	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	struct info_t info[] = { INFO_INIT };
+	int fd;
 
+	fd = 2;
 	asm ("mov %1, %0\n\t"
 		"add $3, %0"
 		: "=r" (fd)
@@ -47,5 +48,3 @@ int main(int a, char **b)
 
 	return (EXIT_SUCCESS);
 }
-
-
