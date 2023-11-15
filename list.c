@@ -122,7 +122,7 @@ int delete_node(list_t **head, unsigned int index)
 /**
  * add_endnode - adds a node To the end of a list
  * @head: Head node pointer adress
- * @f: Field node's string
+ * @str: Field node's string
  * @n : Index node used by history
  *
  * Return: list_t
@@ -143,9 +143,6 @@ list_t *add_endnode(list_t **head, const char *str, int n)
 	set_mem((void *)newnode, 0, sizeof(list_t));
 	newnode->num = n;
 
-	newnode->str;
-	set_mem((void *)newnode, 0, sizeof(list_t));
-	newnode->num = n;
 	if (str)
 	{
 		newnode->str = str_dup(str);

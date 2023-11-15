@@ -32,6 +32,7 @@ void find_command(info_t *info)
 	else
 	{
 		if ((interact(info) || get_env(info, "PATH=") || info->argv[0][0] == '/'))
+		{
 			if (_cmd(info, info->argv[0]))
 				fork_command(info);
 			else if (*(info->arg) != '\n')
@@ -39,6 +40,7 @@ void find_command(info_t *info)
 				info->status = 127;
 				print_error(info, "command not found\n");
 			}
+		}
 	}
 
 }

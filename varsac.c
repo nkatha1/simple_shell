@@ -66,7 +66,7 @@ int rep_alias(info_t *info)
 
 	for (n = 0; n < ALIAS_REPLACE_LIMIT; n++)
 	{
-		node = node_start(info->alias, info->argv[0], '=');
+		node = node_start((list_t *)info->alias, info->argv[0], '=');
 		if (node == NULL)
 			return (1);
 
@@ -148,7 +148,7 @@ int rep_variables(info_t *info)
 			replace_str(&(info->argv[i]), pid_str);
 			continue;
 		}
-		node = node_start(info->env, &info->argv[i][1], '=');
+		node = node_start((list_t *)info->env, &info->argv[i][1], '=');
 		if (node)
 		{
 			val = str_dup(str_chr(node->str, '=') + 1);

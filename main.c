@@ -9,8 +9,8 @@
  */
 int main(int a, char **b)
 {
+	struct info_t info[] = { INFO_INIT };
 	int fd = 2;
-	info_t info[] = { INFO_INIT };
 
 	if (a != 2 || b == NULL)
 	{
