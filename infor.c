@@ -9,7 +9,7 @@ void create_info(info_t *info, char **ar)
 	info->filename = ar[0];
 	if (info->arg != NULL)
 	{
-		info->argv = strtow(info->arg, "\t");
+		info->argv = str_tow(info->arg, "\t");
 		if (info->argv == NULL)
 		{
 			info->argv = (char **)malloc(sizeof(char *) * 2);
@@ -19,8 +19,6 @@ void create_info(info_t *info, char **ar)
 				info->argv[1] = NULL;
 				info->argc = 1;
 			}
-			else
-				return (-1);
 		}
 		else
 		{
@@ -28,8 +26,8 @@ void create_info(info_t *info, char **ar)
 			while (info->argv[info->argc] != NULL)
 				info->argc++;
 		}
-		replace_alias(info);
-		replace_vars(info);
+		rep_alias(info);
+		rep_variables(info);
 	}
 }
 /**
@@ -44,19 +42,19 @@ void free_struct(info_t *info, int n)
 	free(info->path);
 	info->path = NULL;
 
-	if (n != NULL)
+	if (n)
 	{
 		if (info->env)
-			_free_list(&(info->env));
+			free_l(&(info->env));
 
 		if (info->alias)
-			_free_list(&(info->alias));
+			free_l(&(info->alias));
 
 		if (!info->cmd_buf)
 			free(info->arg);
 
-		if (info->history)
-			_free_list(&(info->history));
+		if (info->hist)
+			free_l(&(info->hist));
 
 		free(info->environ);
 		info->environ = NULL;

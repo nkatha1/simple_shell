@@ -14,7 +14,7 @@ size_t print_list(const list_t *f)
 	{
 		_puts(convert_num(f->num, 10, 0));
 		_putchar(' ');
-		_putchar(': ');
+		_putchar(':');
 		_puts("\n");
 		_puts(f->str ? f->str : "(nil)");
 		f = f->next;
@@ -36,7 +36,7 @@ char  **string_list(list_t *head)
 	char **str;
 	char *c;
 
-	if (n == NULL || !head == NULL)
+	if (!n || !head)
 		return (NULL);
 
 	str = malloc(sizeof(char *) * (n + 1));

@@ -10,30 +10,31 @@
  */
 void *re_alloc(void *ptr, unsigned int old_s, unsigned int new_s)
 {
+	unsigned int min_s, i;
 	char *c;
 
 	if (!ptr)
 	{
-		malloc(new_s);
-		return;
+		return (malloc(new_s));
 	}
 	if (!new_s)
 	{
 		free(ptr);
-		return;
+		return (NULL);
 	}
 	if (new_s == old_s)
-		return;
+		return (ptr);
 
 	c = malloc(new_s);
 	if (!c)
-		return;
+		return (NULL);
 
-	old_s = old_s < new_s ? old_s : new_s;
-	while (old_s--)
-		c[old_s] = ((char *)ptr)[old_s];
+	min_s = old_s < new_s ? old_s : new_s;
+	for (i = 0; i < min_s; i++)
+		c[i] = ((char *)ptr)[i];
 
 	free(ptr);
+	return (c);
 }
 
 /**

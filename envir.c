@@ -15,7 +15,7 @@ char *get_env(info_t *info, const char *form)
 	while (node != NULL)
 	{
 		c = start_with(node->str, form);
-		if (c != NULL && *c != NULL)
+		if (c && *c)
 			return (c);
 		node = node->next;
 	}
@@ -29,7 +29,7 @@ char *get_env(info_t *info, const char *form)
  */
 int my_env(info_t *info)
 {
-	print_liststr(info->env);
+	print_str_list(info->env);
 	return (0);
 }
 /**
@@ -51,7 +51,7 @@ int my_setenv(info_t *info)
 
 	name = info->argv[1];
 	value = info->argv[2];
-	if (_setenv(info, name, value))
+	if (set_env(info, name, value))
 		return (0);
 	else
 		return (1);
@@ -74,7 +74,7 @@ int my_unsetenv(info_t *info)
 	}
 	for (n = 1; n <= info->argc; n++)
 	{
-		if (_unsetenv(info, info->argv[n]) != 0)
+		if (un_setenv(info, info->argv[n]) != 0)
 		{
 			printf("Failed to unset env variable '%s'\n", info->argv[n]);
 			return (1);
@@ -96,7 +96,7 @@ int create_envlist(info_t *info)
 
 	for (n = 0; environ[n]; n++)
 	{
-		add_end_node(&node, environ[n]);
+		add_endnode(&node, environ[n], 0);
 	}
 	info->env = node;
 	return (0);

@@ -42,7 +42,7 @@ int puts_fd(int fd, char *string)
 		return (0);
 
 	n = 0;
-	while (*string != NULL)
+	while (*string)
 	{
 		n += putc_fd(fd, *string++);
 	}

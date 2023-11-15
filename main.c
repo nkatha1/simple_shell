@@ -19,7 +19,16 @@ int main(int ac, char **av)
 
 	if (ac == 2)
 	{
+<<<<<<< HEAD
 		fd = open(av[1], 0_RDONLY);
+=======
+		puts_fd(2, "Invalid argument count\n");
+		return (EXIT_FAILURE);
+	}
+	if (a == 2)
+	{
+		fd = open(b[1], O_RDWR);
+>>>>>>> 9d055b303cdf18de14f41d0cebf8a6623a82ec58
 		if (fd == -1)
 		{
 			if (errno == EACCES)
@@ -37,9 +46,15 @@ int main(int ac, char **av)
 		}
 		info->readfd = fd;
 	}
+<<<<<<< HEAD
 	populate_env_list(info);
 	read_history(info);
 	hsh(info, av);
+=======
+	create_envlist(info);
+	read_hist(info);
+	shel(info, b);
+>>>>>>> 9d055b303cdf18de14f41d0cebf8a6623a82ec58
 	return (EXIT_SUCCESS);
 }
 

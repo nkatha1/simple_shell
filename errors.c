@@ -136,9 +136,11 @@ int str_int(char *c)
 		if (c[n] >= '0' && c[n] <= '9')
 		{
 			if (res > (INT_MAX - (c[n] - '0')) / 10)
+			{
 				return (-1);
+			}
+			res = res * 10 + (c[n] - '0');
 		}
-		res = res * 10 + (c[n] - '0');
 		else
 			return (-1);
 		n++;

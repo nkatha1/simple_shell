@@ -17,10 +17,10 @@ void find_command(info_t *info)
 		info->line_number++;
 		info->linecount_flag = 0;
 	}
-	for (n = 0, j = 0, info->arg[n]; n++)
+	for (n = 0, j = 0; info->arg[n]; n++)
 		if (!_isdelim(info->arg[n], " \t\n"))
 			j++;
-	if (j == NULL)
+	if (j == '\0')
 		return;
 
 	path = path_finder(info, get_env(info, "PATH="), info->argv[0]);
@@ -116,7 +116,7 @@ void fork_command(info_t *info)
 	else
 	{
 		wait(&(info->status));
-		if (WIFEEXITED(info->status))
+		if (WIFEXITED(info->status))
 		{
 			info->status = WEXITSTATUS(info->status);
 			if (info->status == 126)
@@ -136,16 +136,15 @@ int check_builtin(info_t *info)
 	int i;
 	int ret = -1;
 	builtin_table bltintabl[] = {
-		{"exit", my_exit},
+		{"exit", shell_exit},
 		{"env", my_env},
 		{"setenv", my_setenv},
 		{"unsetenv", my_unsetenv},
-		{"cd", my_cd},
 		{"alias", my_alias},
 		{NULL, NULL}
 	};
 
-	for (i = 0, bltintabl[i].type; i++)
+	for (i = 0; bltintabl[i].type; i++)
 	{
 		if (str_cmp(info->argv[0], bltintabl[i].type) == 0)
 		{

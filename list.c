@@ -46,12 +46,12 @@ size_t print_str_list(const list_t *n)
 /**
  * add_node - Add a node at the start of a list
  * @head: Pointer to pointer to list_t
- * @f: pointer to constant char
+ * @str: pointer to constant char
  * @n: Index node
  *
  * Return: list_t
  */
-list_t *add_node(list_t **head, const char *f, int n)
+list_t *add_node(list_t **head, const char *str, int n)
 {
 	list_t *newhead;
 
@@ -65,8 +65,8 @@ list_t *add_node(list_t **head, const char *f, int n)
 	newhead->num = n;
 	if (str)
 	{
-		newhead->f = str_dup(f);
-		if (!newhead->f)
+		newhead->str = str_dup(str);
+		if (!newhead->str)
 		{
 			free(newhead);
 			return (NULL);
@@ -127,7 +127,7 @@ int delete_node(list_t **head, unsigned int index)
  *
  * Return: list_t
  */
-list_t *add_endnode(list_t **head, const char *f, int n)
+list_t *add_endnode(list_t **head, const char *str, int n)
 {
 	list_t *newnode;
 	list_t *node;
@@ -141,11 +141,11 @@ list_t *add_endnode(list_t **head, const char *f, int n)
 		return (NULL);
 
 	set_mem((void *)newnode, 0, sizeof(list_t));
-	newnode->n = n;
+	newnode->num = n;
 
 	newnode->str;
 	set_mem((void *)newnode, 0, sizeof(list_t));
-	newnode->n = n;
+	newnode->num = n;
 	if (str)
 	{
 		newnode->str = str_dup(str);

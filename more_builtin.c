@@ -25,12 +25,15 @@ int my_alias(info_t *info)
 		s = strchr(info->argv[n], '=');
 		if (s)
 		{
-			if (alias_set(info, info->argv[n] != 0)
+			if (info->argv[n] != NULL)
+			{
+				if (alias_set(info, info->argv[n]) != 0)
 					return (1);
+			}
 		}
 		else
 		{
-			match = node_starts_with(info->alias, info->argv[n], '=');
+			match = node_start(info->alias, info->argv[n], '=');
 			while (match != NULL)
 			{
 				print_alias(match);
@@ -58,7 +61,7 @@ int alias_set(info_t *info, char *str)
 	else
 		return (alias_unset(info, str));
 
-	return (add_end_node(&(info->alias), str, 0) == NULL);
+	return (add_endnode(&(info->alias), str, 0) == NULL);
 }
 /**
  * alias_unset - unsets string alias
@@ -79,13 +82,13 @@ int alias_unset(info_t *info, char *str)
 	s = *c;
 	*c = '\0';
 
-	index = get_node(info->alias, node_starts_with(info->alias, str, -1));
+	index = get_node(info->alias, node_start(info->alias, str, -1));
 	*c = s;
 
 	if (index < 0)
 		return (1);
 
-	res = del_node(&(info->alias), index);
+	res = delete_node(info->alias, index);
 
 	return (res);
 }
