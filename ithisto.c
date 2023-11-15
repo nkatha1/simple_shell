@@ -4,12 +4,12 @@
  * renum_hist - renumbers history.
  * @info: Pointer to struct
  *
- * Return : int
+ * Return: int
  */
 int renum_hist(info_t *info)
 {
 	int n;
-	list_t *node = info->hist;
+	list_t *node = (list_t *)info->hist;
 
 	n = 0;
 	while (node != NULL)
@@ -113,7 +113,7 @@ int w_history(info_t *info)
 		return (-1);
 	free(file);
 
-	for (node = info->hist; node; node = node->next)
+	for (node = (list_t *)info->hist; node; node = node->next)
 	{
 		puts_fd(fd, node->str);
 		putc_fd(fd, '\n');
@@ -165,7 +165,7 @@ int create_history(info_t *info, char *buffer, int count)
 	list_t *node = NULL;
 
 	if (info->hist)
-		node = info->hist;
+		node = (list_t *)info->hist;
 	add_node(&node, buffer, count);
 
 	if (info->hist == NULL)

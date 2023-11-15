@@ -13,7 +13,7 @@ int my_alias(info_t *info)
 
 	if (info->argc == 1)
 	{
-		node = info->alias;
+		node = (list_t *)info->alias;
 		while (node != NULL)
 		{
 			print_alias(node);
@@ -33,7 +33,7 @@ int my_alias(info_t *info)
 		}
 		else
 		{
-			match = node_start(info->alias, info->argv[n], '=');
+			match = node_start((list_t *)info->alias, info->argv[n], '=');
 			while (match != NULL)
 			{
 				print_alias(match);
@@ -88,7 +88,7 @@ int alias_unset(info_t *info, char *str)
 	if (index < 0)
 		return (1);
 
-	res = delete_node(info->alias, index);
+	res = delete_node(&(info->alias), index);
 
 	return (res);
 }

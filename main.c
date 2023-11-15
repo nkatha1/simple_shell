@@ -7,7 +7,7 @@
  *
  * Return: On success 0, on error 1.
  */
-int main(int ac, char **av)
+int main(int a, char **b)
 {
 	info_t info[] = { INFO_INIT };
 	int fd = 2;
@@ -36,11 +36,14 @@ int main(int ac, char **av)
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
 	}
+
+	info->readfd = fd;
+
 	create_envlist(info);
 	read_hist(info);
-	shel(info, av);
+	shel(info, b);
+
 
 	return (EXIT_SUCCESS);
 }

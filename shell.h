@@ -39,6 +39,19 @@
 extern char **environ;
 
 /**
+ * liststr - struct
+ * @str: pointer to string
+ * @num: integer
+ * @next: pointer to next node
+ */
+typedef struct liststr
+{
+	char *str;
+	int num;
+	struct liststr *next;
+} list_t;
+
+/**
  * passinfo - struct
  * @arg: Generates string containing arguments from getline.
  * @argv: Strings array that are generated from arg.
@@ -83,8 +96,8 @@ typedef struct passinfo
 } info_t;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL}, \
-	{0, 0, 0}
+{NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL}, \
+	{NULL, 0, 0}
 
 /** 
  * builtin - struct
@@ -96,19 +109,6 @@ typedef struct builtin
 	char *type;
 	int (*func)(info_t *info);
 } builtin_table;
-
-/**
- * liststr - struct
- * @str: pointer to string
- * @num: integer
- * @next: next node pointer
- */
-typedef struct liststr
-{
-	char *str;
-	int num;
-	struct liststr *next;
-} list_t;
 
 /** atgetenvir.c */
 int un_setenv(info_t *info, char *c);

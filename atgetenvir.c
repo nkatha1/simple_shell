@@ -10,7 +10,7 @@ int un_setenv(info_t *info, char *c)
 {
 	size_t n = 0;
 	char *s;
-	list_t *node = info->env;
+	list_t *node = (list_t *)info->env;
 
 	if (!c || !node)
 		return (0);
@@ -30,10 +30,10 @@ int un_setenv(info_t *info, char *c)
 }
 
 /**
- * **_getenviron - The string arrray copy of our environ, it returns it.
+ * _getenviron - The string arrray copy of our environ, it returns it.
  * @info: pointer to struct
  *
- * Return : char
+ * Return: char
  */
 char **_getenviron(info_t *info)
 {
@@ -98,7 +98,7 @@ int set_env(info_t *info, char *c, char *v)
 		}
 		node = node->next;
 	}
-	add_node(&(info->env), strdup(buffer), 0);
+	add_node(&(info->env), str_dup(buffer), 0);
 	free(buffer);
 	info->change_env = 1;
 	return (0);

@@ -34,7 +34,6 @@ char  **string_list(list_t *head)
 	size_t n = listlen(head);
 	list_t *node = head;
 	char **str;
-	char *c;
 
 	if (!n || !head)
 		return (NULL);
