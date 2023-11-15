@@ -2,40 +2,45 @@
 
 /**
  * main - The point of entry.
- * @a: The argument count.
- * @b: The argument vector.
+ * @ac: The argument count.
+ * @av: The argument vector.
  *
- * Return: int
+ * Return: On success 0, on error 1.
  */
-int main(int a, char **b)
+int main(int ac, char **av)
 {
-	int fd = 2;
 	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	if (a != 2 || b == NULL)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (ac == 2)
 	{
-		puts_fd(2, "Invalid argument count\n");
-		return (EXIT_FAILURE);
-	}
-	if (a == 2)
-	{
-		fd = open(b[1], 0_RDWR);
+		fd = open(av[1], 0_RDONLY);
 		if (fd == -1)
 		{
-			perror("Failure opening file");
-
 			if (errno == EACCES)
-				puts_fd(2, "Permission denied\n");
+				exit (126);
 			if (errno == ENOENT)
 			{
-				puts_fd(2, "File not found\n");
+				_eputs(av[0]);
+				_eputs(" : 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
 		info->readfd = fd;
 	}
-	create_envlist(info);
-	read_hist(info);
-	hsh(info, b);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
 	return (EXIT_SUCCESS);
 }
+
+
