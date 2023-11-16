@@ -1,31 +1,41 @@
 #include "shell.h"
 /**
+ * null_info - initializes struct
+ * @info: pointer to struct
+ */
+void null_info(info_t *info)
+{
+	info->arg = NULL;
+	info->argv = NULL;
+	info->path = NULL;
+	info->argc = 0;
+}
+/**
  * create_info - initializes struct
  * @info: pointer to struct
  * @ar: pointer to pointer to string
  */
 void create_info(info_t *info, char **ar)
 {
+	int n = 0;
+
 	info->filename = ar[0];
-	if (info->arg != NULL)
+	if (info->arg)
 	{
 		info->argv = str_tow(info->arg, "\t");
-		if (info->argv == NULL)
+		if (!info->argv)
 		{
 			info->argv = (char **)malloc(sizeof(char *) * 2);
-			if (info->argv != NULL)
+			if (info->argv)
 			{
 				info->argv[0] = str_dup(info->arg);
 				info->argv[1] = NULL;
-				info->argc = 1;
 			}
 		}
-		else
-		{
-			info->argc = 0;
-			while (info->argv[info->argc] != NULL)
-				info->argc++;
-		}
+		for (n = 0; info->argv && info->argv[n]; n++)
+			;
+		info->argc = n;
+
 		rep_alias(info);
 		rep_variables(info);
 	}
@@ -37,9 +47,8 @@ void create_info(info_t *info, char **ar)
  */
 void free_struct(info_t *info, int n)
 {
-	free(info->argv);
+	ffree(info->argv);
 	info->argv = NULL;
-	free(info->path);
 	info->path = NULL;
 
 	if (n)
@@ -56,10 +65,10 @@ void free_struct(info_t *info, int n)
 		if (info->hist)
 			free_l(&(info->hist));
 
-		free(info->environ);
-		info->environ = NULL;
+		ffree(info->environ);
+			info->environ = NULL;
 
-		info->cmd_buf = NULL;
+		freemem((void **)info->cmd_buf);
 
 		if (info->readfd > 2)
 			close(info->readfd);

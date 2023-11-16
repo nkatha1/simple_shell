@@ -8,38 +8,28 @@
 int my_alias(info_t *info)
 {
 	int n;
-	list_t *node, *match;
+	list_t *node = NULL;
 	char *s = NULL;
 
 	if (info->argc == 1)
 	{
-		node = (list_t *)info->alias;
-		while (node != NULL)
+		node = info->alias;
+		while (node)
 		{
 			print_alias(node);
 			node = node->next;
 		}
+		return (0);
 	}
 	for (n = 1; info->argv[n]; n++)
 	{
-		s = strchr(info->argv[n], '=');
+		s = str_chr(info->argv[n], '=');
 		if (s)
 		{
-			if (info->argv[n] != NULL)
-			{
-				if (alias_set(info, info->argv[n]) != 0)
-					return (1);
-			}
+			alias_set(info, info->argv[n]);
 		}
 		else
-		{
-			match = node_start((list_t *)info->alias, info->argv[n], '=');
-			while (match != NULL)
-			{
-				print_alias(match);
-				match = match->next;
-			}
-		}
+			print_alias(node_start(info->alias, info->argv[n], '='));
 	}
 	return (0);
 }
@@ -55,12 +45,13 @@ int alias_set(info_t *info, char *str)
 {
 	char *c;
 
-	c = strchr(str, '=');
-	if (c == NULL)
+	c = str_chr(str, '=');
+	if (!c)
 		return (1);
-	else
+	if (!*++c)
 		return (alias_unset(info, str));
 
+	alias_unset(info, str);
 	return (add_endnode(&(info->alias), str, 0) == NULL);
 }
 /**
@@ -76,19 +67,19 @@ int alias_unset(info_t *info, char *str)
 	char *c, s;
 
 	c = strchr(str, '=');
-	if (c == NULL)
+	if (!c)
 		return (1);
 
 	s = *c;
-	*c = '\0';
+	*c = 0;
 
 	index = get_node(info->alias, node_start(info->alias, str, -1));
-	*c = s;
 
 	if (index < 0)
 		return (1);
 
 	res = delete_node(&(info->alias), index);
+	*c = s;
 
 	return (res);
 }
@@ -101,16 +92,26 @@ int print_alias(list_t *node)
 {
 	char *c, *s;
 
-	if (node == NULL)
-		return (1);
-
-	c = strchr(node->str, '=');
-	if (c == NULL)
-		return (1);
-
-	for (s = node->str; s <= c; s++)
-		_putchar(*s);
-
-	_puts(c + 1);
+	if (node)
+	{
+		c = str_chr(node->str, '=');
+		for (s = node->str; s <= c; s++)
+			_putchar(*s);
+		_putchar('\'');
+		_puts(c + 1);
+		_puts("'\n");
+		return (0);
+	}
+	return (1);
+}
+/**
+ * my_hist - shows history
+ * @info: poiter to struct
+ *
+ * Return: int
+ */
+int my_hist(info_t *info)
+{
+	print_list(info->hist);
 	return (0);
 }

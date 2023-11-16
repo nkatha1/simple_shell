@@ -8,36 +8,35 @@
  */
 int print_integer(int fd, int n)
 {
+	int (*__putchar)(char) = _putchar;
 	int i = 0, j;
-	int c[12];
+	unsigned int abs, current;
 
-	if (fd != 1)
-		fd = 2;
+	if (fd == STDERR_FILENO)
+		__putchar = e_putc;
 
-	j = 0;
 	if (n < 0)
 	{
+		abs = -n;
 		_putchar('-');
-		j++;
-		n = -n;
+		i++;
 	}
-	if (n == 0)
-		c[i++] = 0;
 	else
+		abs = n;
+	current = abs;
+	for (j = 1000000000; j > 1; j /= 10)
 	{
-		while (n > 0)
+		if (abs / j)
 		{
-			c[i] = n % 10;
-			n /= 10;
+			__putchar('0' + current / j);
 			i++;
 		}
+		current %= j;
 	}
-	for (i--; i >= 0; i--)
-	{
-		_putchar('0' + c[i]);
-		j++;
-	}
-	return (j);
+	__putchar('0' + current);
+	i++;
+
+	return (i);
 }
 /**
  * print_error - prints error message
@@ -65,20 +64,28 @@ void print_error(info_t *info, char *str)
 char *convert_num(long int n, int base, int flags)
 {
 	static char buffer[100];
-	static const char str[] = "0123456789ABCDEF";
+	static char *str;
 	char *ptr;
-	unsigned long int k = (n < 0 && !(flags & CONVERT_UNSIGNED)) ? -n : n;
+	char sign = 0;
+	unsigned long int k = n;
 
+	if (!(flags & CONVERT_UNSIGNED) && n < 0)
+	{
+		k = -n;
+		sign = '-';
+	}
+	str = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[99];
 	*ptr = '\0';
-	do {
+
+	do 	{
 		*--ptr = str[k % base];
 		k /= base;
 	} while (k != 0);
 
-	if (n < 0 && !(flags & CONVERT_UNSIGNED))
+	if (sign)
 	{
-		*--ptr = '-';
+		*--ptr = sign;
 	}
 	return (ptr);
 }
@@ -91,25 +98,13 @@ char *convert_num(long int n, int base, int flags)
 void replace_comments(char *c)
 {
 	int n;
-	int i;
 
-	i = 0;
-	n = 0;
-	while (c[n] != '\0')
-	{
-		if (c[n] == '#' && (n == 0 || c[n - 1] == ' '))
+	for (n = 0; c[n] != '\0'; n++)
+		if (c[n] == '#' && (!n || c[n - 1] == ' '))
 		{
-			i = 1;
+			c[n] = '\0';
+			break;
 		}
-		if (i)
-		{
-			if (c[n] != '\n')
-				c[n] = ' ';
-			else
-				i = 0;
-		}
-		n++;
-	}
 }
 /**
  * str_int - converts string to integer
@@ -119,31 +114,25 @@ void replace_comments(char *c)
  */
 int str_int(char *c)
 {
-	int sign = 1;
-	int res = 0;
+	unsigned long int res = 0;
 	int n = 0;
 
-	if (*c == '-')
-	{
-		sign = -1;
-		c++;
-	}
-	else if (*c == '+')
+	if (*c == '+')
 		c++;
 
-	while (c[n] != '\0')
+	for (n = 0; c[n] != '\0'; n++)
 	{
 		if (c[n] >= '0' && c[n] <= '9')
 		{
-			if (res > (INT_MAX - (c[n] - '0')) / 10)
+			res *= 10;
+			res += (c[n] - '0');
+			if (res > INT_MAX)
 			{
 				return (-1);
 			}
-			res = res * 10 + (c[n] - '0');
 		}
 		else
 			return (-1);
-		n++;
 	}
-	return (res * sign);
+	return (res);
 }

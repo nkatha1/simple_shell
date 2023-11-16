@@ -20,7 +20,7 @@ void find_command(info_t *info)
 	for (n = 0, j = 0; info->arg[n]; n++)
 		if (!_isdelim(info->arg[n], " \t\n"))
 			j++;
-	if (j == '\0')
+	if (!j)
 		return;
 
 	path = path_finder(info, get_env(info, "PATH="), info->argv[0]);
@@ -31,18 +31,14 @@ void find_command(info_t *info)
 	}
 	else
 	{
-		if ((interact(info) || get_env(info, "PATH=") || info->argv[0][0] == '/'))
+		if ((interact(info) || get_env(info, "PATH=") || info->argv[0][0] == '/') && _cmd(info, info->argv[0]))
+			fork_command(info);
+		else if (*(info->arg) != '\n')
 		{
-			if (_cmd(info, info->argv[0]))
-				fork_command(info);
-			else if (*(info->arg) != '\n')
-			{
-				info->status = 127;
-				print_error(info, "command not found\n");
-			}
+			info->status = 127;
+			print_error(info, "command not found\n");
 		}
 	}
-
 }
 
 /**
@@ -59,11 +55,12 @@ int shel(info_t *info, char **am)
 
 	while (bltin_ret != -2 && n != -1)
 	{
+		null_info(info);
 		if (interact(info))
 		{
 			_puts("$ ");
-			e_putc(BUF_FLUSH);
 		}
+		e_putc(BUF_FLUSH);
 		n = get_form(info);
 		if (n != -1)
 		{
@@ -142,6 +139,7 @@ int check_builtin(info_t *info)
 		{"env", my_env},
 		{"setenv", my_setenv},
 		{"unsetenv", my_unsetenv},
+		{"cd", chadir},
 		{"alias", my_alias},
 		{NULL, NULL}
 	};

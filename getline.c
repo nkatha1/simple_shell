@@ -17,7 +17,8 @@ int get_line(info_t *info, char **ptr, size_t *len)
 	char *s;
 	ssize_t j = 0, i = 0;
 
-	if (len && *ptr)
+	c = *ptr;
+	if (len && c)
 		i = *len;
 	if (n == l)
 		n = l = 0;
@@ -26,24 +27,23 @@ int get_line(info_t *info, char **ptr, size_t *len)
 	if (j == -1 || (j == 0 && l == 0))
 		return (-1);
 
-	s = str_chr(buffer + 1, '\n');
+	s = str_chr(buffer + n, '\n');
 	t = s ? 1 + (size_t)(s - buffer) : l;
 
-	ptr1 = re_alloc(c, i, i + t + 1);
+	ptr1 = re_alloc(c, i, i ? i + t : t + 1);
 	if (!ptr1)
-	{
-		if (c)
-			free(c);
-		return (-1);
-	}
+		return (c ? free(c), -1 : -1);
 
-	strn_cat(ptr1, buffer + n, t - n);
-
+	if (c)
+		strn_cat(ptr1, buffer + n, t - n);
+	else
+		strn_cpy(ptr1, buffer + n, t - n + 1);
+	
 	i += t - n;
 	n = t;
 	c = ptr1;
 
-	if (len != NULL)
+	if (len)
 		*len = i;
 	*ptr = c;
 	return (i);
@@ -61,19 +61,13 @@ ssize_t buff_read(info_t *info, char *buffer, size_t *n)
 	ssize_t i;
 
 	if (!n)
-		return (-1);
-
-	if (*n != 0)
 		return (0);
 
 	i = read(info->readfd, buffer, READ_BUF_SIZE);
-	if (i < 0)
+	if (i >= 0)
 	{
-		perror("Read failed");
-		return (-1);
+		*n = i;
 	}
-
-	*n = i;
 	return (i);
 }
 /**
@@ -91,17 +85,15 @@ ssize_t buff_input(info_t *info, char **buffer, size_t *n)
 
 	if (!*n)
 	{
-		if (*buffer)
-		{
-			free(*buffer);
-			*buffer = NULL;
-		}
+		free(*buffer);
+		*buffer = NULL;
+		signal(SIGINT, sigintHandler);
 
-		#if USE_GETLINE
+#if USE_GETLINE
 		r = getline(buffer, &i, stdin);
-		#else
+#else
 		r = get_line(info, buffer, &i);
-		#endif
+#endif
 
 		if (r > 0)
 		{
@@ -111,6 +103,7 @@ ssize_t buff_input(info_t *info, char **buffer, size_t *n)
 				r--;
 			}
 			info->linecount_flag = 1;
+			replace_comments(*buffer);
 			create_history(info, *buffer, info->histcount++);
 
 			if (str_chr(*buffer, ';'))
@@ -123,6 +116,16 @@ ssize_t buff_input(info_t *info, char **buffer, size_t *n)
 	return (r);
 }
 /**
+ * sigintHandler - block control c
+ * @num: signal number
+ */
+void sigintHandler(__attribute__((unused))int num)
+{
+	_puts("\n");
+	_puts("$ ");
+	_putchar(BUF_FLUSH);
+}
+/**
  * get_form - gets iput format
  * @info: pointer to struct
  *
@@ -130,8 +133,8 @@ ssize_t buff_input(info_t *info, char **buffer, size_t *n)
  */
 ssize_t get_form(info_t *info)
 {
-	size_t i = 0, j = 0, k = 0;
-	char *buffer = NULL;
+	static size_t i = 0, j = 0, k = 0;
+	static char *buffer = NULL;
 	ssize_t r = 0;
 	char **c = &(info->arg);
 	char *s;
@@ -142,12 +145,20 @@ ssize_t get_form(info_t *info)
 	if (r == -1)
 		return (-1);
 
-	if (k != 0)
+	if (k)
 	{
 		j = i;
 		s = buffer + i;
-		i = j + 1;
 
+		checkchain(info, buffer, &j, i, k);
+		while (j < k)
+		{
+			if (chain_delim(info, buffer, &j))
+				break;
+			j++;
+		}
+
+		i = j + 1;
 		if (i >= k)
 		{
 			i = k = 0;

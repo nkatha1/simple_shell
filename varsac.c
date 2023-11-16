@@ -8,14 +8,9 @@
  */
 int replace_str(char **former, char *current)
 {
-	char *new_str = str_dup(current);
-
-	if (!new_str)
-		return (-1);
-
 	free(*former);
-	*former = new_str;
-	return (0);
+	*former = current;
+	return (1);
 }
 
 /**
@@ -44,7 +39,7 @@ int chain_delim(info_t *info, char *buffer, size_t *n)
 	}
 	else if (buffer[j] == ';')
 	{
-		buffer[j] = '\0';
+		buffer[j] = 0;
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
@@ -66,7 +61,7 @@ int rep_alias(info_t *info)
 
 	for (n = 0; n < ALIAS_REPLACE_LIMIT; n++)
 	{
-		node = node_start((list_t *)info->alias, info->argv[0], '=');
+		node = node_start(info->alias, info->argv[0], '=');
 		if (node == NULL)
 			return (1);
 
@@ -74,14 +69,14 @@ int rep_alias(info_t *info)
 
 		c = str_chr(node->str, '=');
 		if (c == NULL)
-			return (1);
+			return (0);
 
 		c = str_dup(c + 1);
 		if (c == NULL)
-			return (1);
+			return (0);
 		info->argv[0] = c;
 	}
-	return (0);
+	return (1);
 }
 
 /**
@@ -148,7 +143,7 @@ int rep_variables(info_t *info)
 			replace_str(&(info->argv[i]), pid_str);
 			continue;
 		}
-		node = node_start((list_t *)info->env, &info->argv[i][1], '=');
+		node = node_start(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
 			val = str_dup(str_chr(node->str, '=') + 1);
@@ -157,7 +152,6 @@ int rep_variables(info_t *info)
 			replace_str(&(info->argv[i]), val);
 			continue;
 		}
-		perror("Error: Unrecognized variable");
 		replace_str(&info->argv[i], str_dup(""));
 	}
 	return (0);

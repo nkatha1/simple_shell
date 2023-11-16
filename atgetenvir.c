@@ -10,23 +10,25 @@ int un_setenv(info_t *info, char *c)
 {
 	size_t n = 0;
 	char *s;
-	list_t *node = (list_t *)info->env;
+	list_t *node = info->env;
 
 	if (!c || !node)
 		return (0);
 
-	while (node != NULL)
+	while (node)
 	{
 		s = start_with(node->str, c);
 		if (s && *s == '=')
 		{
 			info->change_env = delete_node(&(info->env), n);
-			return (1);
+			n = 0;
+			node = info->env;
+			continue;
 		}
 		node = node->next;
 		n++;
 	}
-	return (0);
+	return (info->change_env);
 }
 
 /**
@@ -37,25 +39,10 @@ int un_setenv(info_t *info, char *c)
  */
 char **_getenviron(info_t *info)
 {
-	char **new_env;
-
-	if (!info)
-		return (NULL);
-
 	if (info->change_env || !info->environ)
 	{
-		new_env = string_list(info->env);
-		if (new_env != NULL)
-		{
-			free(info->environ);
-			info->environ = new_env;
-			info->change_env = 0;
-		}
-		else
-		{
-			perror("list_strings failed");
-			return (NULL);
-		}
+		info->environ = string_list(info->env);
+		info->change_env = 0;
 	}
 	return (info->environ);
 }
@@ -78,27 +65,27 @@ int set_env(info_t *info, char *c, char *v)
 		return (-1);
 
 	buffer = malloc(str_len(v) + str_len(c) + 2);
-	if (buffer == NULL)
-		return (-1);
+	if (!buffer)
+		return (1);
 
 	str_cpy(buffer, c);
 	str_cat(buffer, "=");
 	str_cat(buffer, v);
 
+	node = info->env;
 	while (node)
 	{
 		s = start_with(node->str, c);
 		if (s && *s == '=')
 		{
 			free(node->str);
-			node->str = str_dup(buffer);
-			free(buffer);
+			node->str = buffer;
 			info->change_env = 1;
-			return (1);
+			return (0);
 		}
 		node = node->next;
 	}
-	add_node(&(info->env), str_dup(buffer), 0);
+	add_node(&(info->env), buffer, 0);
 	free(buffer);
 	info->change_env = 1;
 	return (0);

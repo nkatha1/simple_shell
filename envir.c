@@ -12,7 +12,7 @@ char *get_env(info_t *info, const char *form)
 	char *c;
 	list_t *node = info->env;
 
-	while (node != NULL)
+	while (node)
 	{
 		c = start_with(node->str, form);
 		if (c && *c)
@@ -45,7 +45,7 @@ int my_setenv(info_t *info)
 
 	if (info->argc != 3)
 	{
-		perror("wrong argument count\n");
+		e_puts("wrong argument count\n");
 		return (1);
 	}
 
@@ -53,8 +53,8 @@ int my_setenv(info_t *info)
 	value = info->argv[2];
 	if (set_env(info, name, value))
 		return (0);
-	else
-		return (1);
+
+	return (1);
 }
 
 /**
@@ -69,16 +69,12 @@ int my_unsetenv(info_t *info)
 
 	if (info->argc == 1)
 	{
-		perror("Error: Not enough arguments\n");
+		e_puts("Error: Not enough arguments\n");
 		return (1);
 	}
 	for (n = 1; n <= info->argc; n++)
 	{
-		if (un_setenv(info, info->argv[n]) != 0)
-		{
-			printf("Failed to unset env variable '%s'\n", info->argv[n]);
-			return (1);
-		}
+		un_setenv(info, info->argv[n]);
 	}
 	return (0);
 }
@@ -91,7 +87,7 @@ int my_unsetenv(info_t *info)
  */
 int create_envlist(info_t *info)
 {
-	ssize_t n;
+	size_t n;
 	list_t *node = NULL;
 
 	for (n = 0; environ[n]; n++)

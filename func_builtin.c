@@ -12,12 +12,12 @@ int chadir(info_t *info)
 	char buf[1024];
 
 	c = getcwd(buf, 1024);
-	if (c == NULL)
-		perror("getcwd failure\n");
-	if (info->argv[1] == NULL)
+	if (!c)
+		_puts("getcwd failure\n");
+	if (!info->argv[1])
 	{
 		s = get_env(info, "HOME=");
-		if (s == NULL)
+		if (!s)
 		{
 			res = chdir((s = get_env(info, "PWD=")) ? s : "/");
 		}
@@ -26,9 +26,10 @@ int chadir(info_t *info)
 	}
 	else if (str_cmp(info->argv[1], "-") == 0)
 	{
-		if (get_env(info, "OLDPWD=") == NULL)
+		if (!get_env(info, "OLDPWD="))
 		{
-			printf("%s\n", c);
+			_puts(c);
+			_putchar('\n');
 			return (1);
 		}
 		_puts(get_env(info, "OLDPWD=")), _putchar('\n');
@@ -39,13 +40,13 @@ int chadir(info_t *info)
 
 	if (res == -1)
 	{
-		perror("can't change directory");
+		print_error(info, "can't change directory");
 		e_puts(info->argv[1]), e_putc('\n');
 	}
 	else
 	{
-		set_env(info, "PWD", getcwd(buf, 1024));
 		set_env(info, "OLDPWD", get_env(info, "PWD="));
+		set_env(info, "PWD", getcwd(buf, 1024));
 	}
 	return (0);
 }
@@ -66,13 +67,14 @@ int shell_exit(info_t *info)
 		if (res == -1)
 		{
 			info->status = 2;
-			perror("exit failure");
-			printf("%s\n", info->argv[1]);
+			print_error(info, "invalid number: ");
+			e_puts(info->argv[1]);
+			e_putc('\n');
 			return (1);
 		}
 		info->err_num = str_int(info->argv[1]);
-		return (-1);
+		return (-2);
 	}
 	info->err_num = -1;
-	return (-1);
+	return (-2);
 }

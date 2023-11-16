@@ -20,7 +20,8 @@ char *strn_cat(char *dest, char *src, size_t n)
 		i++;
 		j++;
 	}
-	dest[i] = '\0';
+	if (j < n)
+		dest[i] = '\0';
 
 	return (c);
 }
@@ -36,14 +37,22 @@ char *strn_cpy(char *dest, char *src, size_t n)
 {
 	char *c = dest;
 	size_t i = 0;
+	size_t j;
 
 	while (i < n - 1 && src[i] != '\0')
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
-
+	if (i < n)
+	{
+		j = i;
+		while (j < n)
+		{
+			dest[j] = '\0';
+			j++;
+		}
+	}
 	return (c);
 }
 /**
@@ -55,11 +64,10 @@ char *strn_cpy(char *dest, char *src, size_t n)
  */
 char *str_chr(char *c, char s)
 {
-	while (*c != '\0')
-	{
+	do {
 		if (*c == s)
 			return (c);
-		c++;
-	}
+	} while (*c++ != '\0');
+
 	return (NULL);
 }

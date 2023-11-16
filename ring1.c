@@ -28,7 +28,7 @@ char *str_cpy(char *dest, char *source)
 {
 	int i;
 
-	if (dest == source || source == NULL)
+	if (dest == source || source == 0)
 		return (dest);
 	i = 0;
 	while (source[i])
@@ -36,7 +36,7 @@ char *str_cpy(char *dest, char *source)
 		dest[i] = source[i];
 		i++;
 	}
-	dest[i] = '\0';
+	dest[i] = 0;
 	return (dest);
 }
 
@@ -53,11 +53,7 @@ int _putchar(char c)
 
 	if (i >= WRITE_BUF_SIZE || c == BUF_FLUSH)
 	{
-		if (i > 0)
-		{
-			if (write(1, buffer, i) == -1)
-			return (-1);
-		}
+		write(1, buffer, i);
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
@@ -74,23 +70,21 @@ int _putchar(char c)
 char *str_dup(const char *s)
 {
 	char *res;
-	int len, n;
+	int len;
 
 	if (s == NULL)
 		return (NULL);
 
 	len = 0;
-	while (s[len])
+	while (*s++)
 		len++;
 
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
 
-	for (n = 0; n < len; n++)
-		res[n] = s[n];
-
-	res[len] = '\0';
+	for (len++; len--;)
+		res[len] = *--s;
 
 	return (res);
 }

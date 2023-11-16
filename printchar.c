@@ -13,13 +13,8 @@ int putc_fd(int fd, char c)
 
 	if (n >= WRITE_BUF_SIZE || c == BUF_FLUSH)
 	{
-		if (n > 0)
-		{
-			write(fd, buffer, n);
-			n = 0;
-		}
-		if (c == BUF_FLUSH)
-			write(fd, &c, 1);
+		write(fd, buffer, n);
+		n = 0;
 	}
 	if (c != BUF_FLUSH)
 	{
@@ -38,7 +33,7 @@ int puts_fd(int fd, char *string)
 {
 	int n;
 
-	if (string == NULL)
+	if (!string)
 		return (0);
 
 	n = 0;
@@ -61,13 +56,8 @@ int e_putc(char c)
 
 	if (c == BUF_FLUSH || n >= WRITE_BUF_SIZE)
 	{
-		if (n > 0)
-		{
-			write(2, buffer, n);
-			n = 0;
-		}
-		if (c == BUF_FLUSH)
-			write(2, &c, 1);
+		write(2, buffer, n);
+		n = 0;
 	}
 	if (c != BUF_FLUSH)
 		buffer[n++] = c;

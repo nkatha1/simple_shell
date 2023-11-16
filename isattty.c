@@ -32,7 +32,7 @@ int _atoi(char *c)
 			i *= 10;
 			i += (c[n] - '0');
 		}
-		else if (flag == -1)
+		else if (flag == 1)
 			flag = 2;
 	}
 	if (sign == -1)
@@ -52,8 +52,8 @@ int _isalpha(int n)
 {
 	if ((n >= 'A' && n <= 'Z') || (n >= 'a' && n <= 'z'))
 		return (1);
-
-	return (0);
+	else
+		return (0);
 }
 /**
  * _isdelim - checks if its a delimiter
@@ -64,13 +64,12 @@ int _isalpha(int n)
  */
 int _isdelim(char c, char *delim)
 {
-	while (*delim != '\0')
+	while (*delim)
 	{
-		if (*delim == c)
+		if (*delim++ == c)
 		{
 			return (1);
 		}
-		delim++;
 	}
 	return (0);
 }

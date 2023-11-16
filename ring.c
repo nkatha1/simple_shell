@@ -9,19 +9,12 @@
  */
 char *start_with(const char *str1, const char *str2)
 {
-	const char *str3 = str2;
-
-	while (*str1 && *str2)
+	while (*str2)
 	{
-		if (*str2 != *str1)
+		if (*str2++ != *str1++)
 			return (NULL);
-		str1++;
-		str2++;
 	}
-	if (*str2 == '\0')
-		return ((char *)str3);
-
-	return (NULL);
+	return ((char *)str1);
 }
 
 /**
@@ -34,14 +27,13 @@ int str_len(char *c)
 {
 	int n;
 
-	if (c == NULL)
+	if (!c)
 		return (0);
 
 	n = 0;
-	while (*c != '\0')
+	while (*c++)
 	{
 		n++;
-		c++;
 	}
 	return (n);
 }
@@ -61,7 +53,7 @@ char *str_cat(char *dest, const char *source)
 		dest++;
 	while (*source)
 		*dest++ = *source++;
-	*dest = '\0';
+	*dest = *source;
 	return (res);
 }
 
@@ -83,8 +75,6 @@ int str_cmp(char *str1, char *str2)
 	}
 	if (*str1 == *str2)
 		return (0);
-	else if (*str1 > *str2)
-		return (1);
-	else
-		return (-1);
+	else 
+	       return (*str1 < *str2 ? -1 : 1);
 }

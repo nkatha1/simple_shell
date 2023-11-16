@@ -34,7 +34,7 @@
 
 /* getline */
 #define USE_GETLINE 0
-#define USE_STROK 0
+#define USE_STRTOK 0
 
 extern char **environ;
 
@@ -96,8 +96,8 @@ typedef struct passinfo
 } info_t;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL}, \
-	{NULL, 0, 0}
+{NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, \
+	0, 0, 0}
 
 /** 
  * builtin - struct
@@ -141,8 +141,10 @@ ssize_t get_form(info_t *info);
 int get_line(info_t *info, char **ptr, size_t *n);
 ssize_t buff_read(info_t *info, char *buffer, size_t *n);
 ssize_t buff_input(info_t *info, char **buffer, size_t *n);
+void sigintHandler(__attribute__((unused))int num);
 
 /** infor.c */
+void null_info(info_t *info);
 void create_info(info_t *info, char **ar);
 void free_struct(info_t *info, int n);
 
@@ -183,7 +185,7 @@ size_t listlen(const list_t *f);
 list_t *node_start(list_t *node, char *s, char d);
 
 /** pas.c */
-char *dup_char(const char *path, int s, int p);
+char *dup_char( char *path, int s, int p);
 int _cmd(info_t *info, char *file_path);
 char *path_finder(info_t *info, char *file_path, char *c);
 

@@ -55,7 +55,7 @@ list_t *add_node(list_t **head, const char *str, int n)
 {
 	list_t *newhead;
 
-	if (head == NULL)
+	if (!head)
 		return (NULL);
 	newhead = malloc(sizeof(list_t));
 	if (newhead == NULL)
@@ -108,8 +108,8 @@ int delete_node(list_t **head, unsigned int index)
 		if (n == index)
 		{
 			prev_node->next = node->next;
-			free(node);
 			free(node->str);
+			free(node);
 			return (1);
 		}
 		n++;
@@ -161,6 +161,5 @@ list_t *add_endnode(list_t **head, const char *str, int n)
 	else
 		*head = newnode;
 
-	newnode->next = NULL;
 	return (newnode);
 }
