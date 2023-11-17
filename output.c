@@ -15,7 +15,7 @@ void pre_error(char **argv, int n, char **in)
 	PRINTER(": ");
 	PRINTER(in[0]);
 	PRINTER(": invalid entry: ");
-	PRINTER(input[1]);
+	PRINTER(in[1]);
 	PRINTER("\n");
 	free(c);
 }

@@ -18,7 +18,7 @@ void exit_bul(char **cmd, char *input, char **argv, int c)
 	}
 	while (cmd[1][i])
 	{
-		if (is_alpha(cmd[1][i++] != 0)
+		if (is_alpha(cmd[1][i++]) != 0)
 		{
 			pre_error(argv, c, cmd);
 			break;
@@ -51,7 +51,7 @@ int change_dir(char **cmd, __attribute__((unused))int er)
 		value = chdir(getenv("OLDPWD"));
 	}
 	else
-		value = chadir(cmd[1]);
+		value = chdir(cmd[1]);
 
 	if (value == -1)
 	{
@@ -72,7 +72,7 @@ int change_dir(char **cmd, __attribute__((unused))int er)
  * @er: Last executed command statue
  * Return: It is always 0.
  */
-int dis_env(__attribute__((unused))char **cmd, __attriute__((unused)) int er)
+int dis_env(__attribute__((unused))char **cmd, __attribute__((unused)) int er)
 {
 	size_t i;
 	int len;
@@ -97,7 +97,7 @@ int display_help(char **cmd, __attribute__((unused))int er)
 char c;
 int fd, fw, rd = 1;
 
-fd = open(cmd[1], 0_RDONLY);
+fd = open(cmd[1], O_RDONLY);
 if (fd < 0)
 {
 	perror("Error");
@@ -112,8 +112,9 @@ while (rd > 0)
 	return (-1);
 
 	}
-	_putchar('\n');
-	return (0);
+}
+_putchar('\n');
+return (0);
 }
 
 /**
@@ -137,7 +138,7 @@ int echo_bul(char **cmd, int st)
 		print_number(pid);
 		PRINTER("\n");
 	}
-	else if (strn_cmp(cmd[1], "PATH", 5) == 0)
+	else if (strn_cmp(cmd[1], "$PATH", 5) == 0)
 	{
 		path = get_env("PATH");
 		PRINTER(path);
@@ -145,9 +146,8 @@ int echo_bul(char **cmd, int st)
 		free(path);
 	}
 	else
+	{
 		return (print_echo(cmd));
-
+	}
 	return (1);
 }
-
-

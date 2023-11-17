@@ -21,7 +21,7 @@ char **parsecmd(char *in)
 		perror("Error");
 		return (NULL);
 	}
-	c = str_tok(input, "\n");
+	c = str_tok(in, "\n");
 	for (n = 0; c; n++)
 	{
 		token[n] = c;

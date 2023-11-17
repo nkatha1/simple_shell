@@ -6,11 +6,11 @@
  *
  * Return: unsigned int
  */
-unsigned int check_delim(const char *str, char c)
+unsigned int check_delim(char c, const char *str)
 {
 	unsigned int n;
 
-	for (n = 0; str[n] != '\0'; i++)
+	for (n = 0; str[n] != '\0'; n++)
 	{
 		if (c == str[n])
 			return (1);

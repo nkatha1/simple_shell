@@ -18,12 +18,12 @@ void exit_bul_file(char **cm, char *line, FILE *fd)
 		fclose(fd);
 		exit(errno);
 	}
-	while (cm[1][i])
+	while (cm[1][n])
 	{
-		if (is_alpha(cm[1][i++]) < 0)
+		if (is_alpha(cm[1][n++]) < 0)
 			perror("Invalid number");
 	}
-	st = _atoi(cmd[1]);
+	st = _atoi(cm[1]);
 	free(line);
 	free(cm);
 	fclose(fd);
@@ -43,7 +43,7 @@ void treat_f(char *line, int c, FILE *fd, char **argv)
 
 	cm = parsecmd(line);
 
-	if (strn_cmp(cmd[0], "exit", 4) == 0)
+	if (strn_cmp(cm[0], "exit", 4) == 0)
 		exit_bul_file(cm, line, fd);
 	else if (check_builtin(cm) == 0)
 	{
@@ -66,7 +66,7 @@ void read_file(char *file, char **argv)
 	int c = 0;
 	size_t length = 0;
 	char *line = NULL;
-	file *fd;
+	FILE *fd;
 
 	fd = fopen(file, "r");
 	if (fd == NULL)

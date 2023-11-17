@@ -26,14 +26,14 @@ int main(__attribute__((unused)) int argc, char **argv)
 			continue;
 
 		history(in);
-		cm = parse_cmd(in);
+		cm = parsecmd(in);
 		if (str_cmp(cm[0], "exit") == 0)
 		{
 			exit_bul(cm, in, argv, c);
 		}
 		else if (str_cmp(cm[0], "setenv") == 0)
 		{
-			if (cm[1] != NULL && cmd[2] != NULL)
+			if (cm[1] != NULL && cm[2] != NULL)
 			{
 				res = set_env(cm[1], cm[2]);
 				if (res != 0)
@@ -102,7 +102,7 @@ int check_builtin(char **cm)
 
 	while ((fun + n)->command)
 	{
-		if (str_cmp(cmd[0], (fun + n)->command) == 0)
+		if (str_cmp(cm[0], (fun + n)->command) == 0)
 			return (0);
 		n++;
 	}
