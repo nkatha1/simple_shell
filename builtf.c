@@ -34,12 +34,12 @@ void exit_bul(char **cmd, char *input, char **argv, int c)
 }
 
 /**
- * change_dir - The dir, it changes it
+ * ch_dir - The dir, it changes it
  * @cmd: Thecommand that is parsed.
  * @er: Last command executed statue
  * Return: Success 1, 0 failure( For old pwd 0 always case no old pwd)
  */
-int change_dir(char **cmd, __attribute__((unused))int er)
+int ch_dir(char **cmd, __attribute__((unused))int er)
 {
 	int value = -1;
 	char cwd[PATH_MAX];
@@ -92,7 +92,7 @@ int dis_env(__attribute__((unused))char **cmd, __attribute__((unused)) int er)
  * @er: Last executed command statue
  * Return: On success 0, failure -1.
  */
-int display_help(char **cmd, __attribute__((unused))int er)
+int dis_help(char **cmd, __attribute__((unused))int er)
 {
 char c;
 int fd, fw, rd = 1;
