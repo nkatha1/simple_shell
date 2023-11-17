@@ -1,15 +1,18 @@
+#include "shell.h"
 int handle_builtin(char **cmd, int er)
 {
+	int i;
+
 	bul_t bil[] = {
 
 		{"history", history_dis},
-		{"help", display_help},
-		{"cd", change_dir},
+		{"help", dis_help},
+		{"cd", ch_dir},
 		{"echo", echo_bul},
 		{"env", dis_env},
 		{NULL, NULL}
-	}
-	int i = 0;
+	};
+	i = 0;
 
 	while ((bil + i)->command)
 	{
@@ -52,7 +55,7 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 	{
 	if(strn_cmp(*cmd, "./", 2)!=0 && strn_cmp(*cmd, "/", 1) != 0)
 	{
-	path_cmd(cmd);
+	pathcmd(cmd);
 	}
 
 	if (execve(*cmd, cmd, environ) == -1)
