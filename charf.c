@@ -1,4 +1,4 @@
-char *_strcpy(char *dest, char *src)
+char *str_cpy(char *dest, char *src)
 {
 	int n;
 
@@ -42,7 +42,7 @@ char *str_cat(char *dest, char *src)
  * @c:Character To Search For
  * Return: Pointer To Char*
  */
-char *_strchr(char *s, char c)
+char *str_chr(char *s, char c)
 {
 
 	do	{
@@ -88,7 +88,7 @@ char *str_dup(char *str)
 	size_t len, i;
 	char *str2;
 
-		len = _strlen(str);
+		len = str_len(str);
 		str2 = malloc(sizeof(char) * (len + 1));
 		if (!str2)
 		{
