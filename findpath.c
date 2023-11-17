@@ -1,13 +1,20 @@
+#include "shell.h"
+/**
+ * path_cmd - checks command path
+ * @cmd: pointer to pointer to string
+ *
+ * Return: int
+ */
 int path_cmd(char **cmd)
 {
 	char *path, *value, *cmd_path;
 	struct stat buf;
 
-	path = _getenv("PATH");
+	path = get_env("PATH");
 	value = str_tok(path, ":");
 	while (value != NULL)
 	{
-		cmd_path = build (*cmd, value);
+		cmd_path = build(*cmd, value);
 		if (stat(cmd_path, &buf) == 0)
 		{
 			*cmd = str_dup(cmd_path);
@@ -35,7 +42,7 @@ char *build(char *token, char *value)
 	char *cmd;
 
 	len = str_len(value) + str_len(token) + 2;
-	cmd = malloc(sizeof(char) *len);
+	cmd = malloc(sizeof(char) * len);
 	if (cmd == NULL)
 	{
 		return (NULL);
@@ -64,10 +71,10 @@ char *get_env(char *name)
 	nl = str_len(name);
 	for (i = 0; environ[i]; i++)
 	{
-		if(strn_cmp(name, environ[i] nl) == 0)
+		if (strn_cmp(name, environ[i], nl) == 0)
 		{
-			vl = str_len(environ[i] - nl;
-			value = malloc(sizeof(char) 8 vl);
+			vl = str_len(environ[i]) - nl;
+			value = malloc(sizeof(char) * vl);
 			if (!value)
 			{
 			free(value);
@@ -76,7 +83,7 @@ char *get_env(char *name)
 			}
 
 		j = 0;
-		for (x = nl + 1; environ[i][x];x+=, j++)
+		for (x = nl + 1; environ[i][x]; x++, j++)
 		{
 			value[j] = environ[i][x];
 		}

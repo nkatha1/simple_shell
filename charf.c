@@ -1,3 +1,11 @@
+#include "shell.h"
+/**
+ * str_cpy - copies string
+ * @dest: destination string
+ * @src: source string
+ *
+ * Return: char
+ */
 char *str_cpy(char *dest, char *src)
 {
 	int n;
@@ -5,7 +13,7 @@ char *str_cpy(char *dest, char *src)
 	n = 0;
 	while (src[n])
 	{
-		dest [n] = src[n];
+		dest[n] = src[n];
 		n++;
 	}
 	dest[n] = '\0';
@@ -13,8 +21,8 @@ char *str_cpy(char *dest, char *src)
 }
 
 /**
- *str_cat - It concentates the two strings
- * @dest: The first String 
+ * str_cat - It concentates the two strings
+ * @dest: The first String
  * @src: The second string
  * Return: First string + second string char *
  */
@@ -45,13 +53,13 @@ char *str_cat(char *dest, char *src)
 char *str_chr(char *s, char c)
 {
 
-	do	{
+	do {
 
-			if (*s == c)
-			{
-				break;
-																		}
-		}	while (*s++);
+		if (*s == c)
+		{
+			break;
+		}
+	} while (*s++);
 
 		return (s);
 }
@@ -60,7 +68,7 @@ char *str_chr(char *s, char c)
  * @str1: first String.
  * @str2: second String.
  * @n: Amount Of Characters To Compare.
- *   
+ *
  * Return: 1 If The Strings Don't Match Otherwise 0
  */
 int strn_cmp(const char *str1, const char *str2, size_t n)
@@ -68,15 +76,15 @@ int strn_cmp(const char *str1, const char *str2, size_t n)
 	size_t t;
 
 	if (str1 == NULL)
-	return (-1);
+		return (-1);
 	for (t = 0; t < n && str2[t]; t++)
 	{
-	if (str1[t] != str2[t])
+		if (str1[t] != str2[t])
 		{
-																return (1);
-																		}
+			return (1);
+		}
 	}
-			return (0);
+	return (0);
 }
 /**
  * str_dup - Duplicate A String
@@ -102,4 +110,3 @@ char *str_dup(char *str)
 
 		return (str2);
 }
-

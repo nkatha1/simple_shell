@@ -1,3 +1,4 @@
+#include "shell.h"
 /**
  * strn_cpy - Copies a string.
  * @dest: The character
@@ -13,15 +14,16 @@ char *strn_cpy(char *dest, char *src, int n)
 	i = 0;
 	while (i < n && *(src + 1))
 	{
-		*(dest + i) = *(src +i);
+		*(dest + i) = *(src + i);
 		i++;
-		while (i < n)
-		{
-			*(dest + i) = '\0';
-			i++;
-		}
-		return (dest);
 	}
+	while (i < n)
+	{
+		*(dest + i) = '\0';
+		i++;
+	}
+	return (dest);	
+}
 
 /**
  * str_len - The strings length
@@ -46,14 +48,14 @@ int str_len(char *s)
  */
 int _atoi(char *s)
 {
-	int i,n,j,x;
+	int i, n, j, x;
 
-	i=n=0;
+	i = n = 0;
 	x = 1;
 	while ((s[i] < '0' || s[i] > '9') && (s[i] != '\0'))
 	{
 		if (s[i] == '-')
-		x * = -1;
+		x *= -1;
 		i++;
 	}
 	j = i;
@@ -79,6 +81,4 @@ void _puts(char *str)
 		_putchar(str[i]);
 	}
 	_putchar('n');
-	return;
 }
-

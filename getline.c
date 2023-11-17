@@ -1,8 +1,14 @@
-char *_getline()
+#include "shell.h"
+/**
+ * get_line - reads input line
+ *
+ * Return: char
+ */
+char *get_line()
 {
 	int i, buffsize = BUFSIZE, rd;
 	char c = 0;
-	char *buf = malloc(buffsize);
+	char *buff = malloc(buffsize);
 
 	if (buff == NULL)
 	{
@@ -10,7 +16,7 @@ char *_getline()
 		return (NULL);
 	}
 
-	for (i = 0; c != EOF && c !='\n'; i++)
+	for (i = 0; c != EOF && c != '\n'; i++)
 	{
 		fflush(stdin);
 		rd = read(STDIN_FILENO, &c, 1);
@@ -22,35 +28,36 @@ char *_getline()
 		buff[i] = c;
 		if (buff[0] == '\n')
 		{
-			free(buf);
-			return("\0");
+			free(buff);
+			return ("\0");
 		}
-		if (i>=buffsize)
+		if (i >= buffsize)
 		{
-			buff = _realloc(buff, buffsize, buffsize +1);
+			buff = re_alloc(buff, buffsize, buffsize + 1);
 			if (buff == NULL)
 			{
-				return(NULL);
+				return (NULL);
 			}
 		}
 	}
 	buff[i] = '\0';
-	hashtag_handle(buff);
+	hash_handle(buff);
 	return (buff);
 }
 
 /**
- * hashtag_handle - It removes anything after #
- * @buf: The input
+ * hash_handle - It removes anything after #
+ * @buff: The input
+ *
  * Return: Void
  */
-void hashtag_handler(char *buff)
+void hash_handle(char *buff)
 {
 	int i;
 
 	for (i = 0; buff[i] != '\0'; i++)
 	{
-		if(buff[i] == '#')
+		if (buff[i] == '#')
 		{
 			buff[i] = '\0';
 			break;

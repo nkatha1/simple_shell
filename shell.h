@@ -7,6 +7,7 @@ extern char **environ;
 #define DELIM "\t\r\n\a"
 #define PRINTER(c) (write(STDOUT_FILENO, c, str_len(c)))
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
