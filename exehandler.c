@@ -1,9 +1,10 @@
 #include "shell.h"
 
 /**
- * handle_builtin - It handles the builtin 
+ * handle_builtin - It handles the builtin
  * @cmd: The cmd
- * 
+ * @er: integer
+ *
  * Return: integer
  */
 int handle_builtin(char **cmd, int er)
@@ -23,7 +24,7 @@ int handle_builtin(char **cmd, int er)
 
 	while ((bil + i)->command)
 	{
-		if(str_cmp(cmd[0], (bil + i)->command) == 0)
+		if (str_cmp(cmd[0], (bil + i)->command) == 0)
 		{
 			return ((bil + i)->func(cmd, er));
 		}
@@ -51,7 +52,7 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 		return (-1);
 	}
 
-	pid = fork ();
+	pid = fork();
 	if (pid == -1)
 	{
 	perror("Error");
@@ -60,7 +61,7 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 
 	if (pid == 0)
 	{
-	if(strn_cmp(*cmd, "./", 2)!=0 && strn_cmp(*cmd, "/", 1) != 0)
+	if (strn_cmp(*cmd, "./", 2) != 0 && strn_cmp(*cmd, "/", 1) != 0)
 	{
 	pathcmd(cmd);
 	}
@@ -79,13 +80,13 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 }
 
 /**
- * signal_to_handler - The ^C handle
+ * signal_to_handle - The ^C handle
  * @sig: The captured signal
  * Return: Void
  */
 void signal_to_handle(int sig)
 {
-	if(sig == SIGINT)
+	if (sig == SIGINT)
 	{
 	PRINTER("\n$");
 	}
