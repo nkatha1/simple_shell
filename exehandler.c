@@ -1,4 +1,11 @@
 #include "shell.h"
+
+/**
+ * handle_builtin - It handles the builtin 
+ * @cmd: The cmd
+ * 
+ * Return: integer
+ */
 int handle_builtin(char **cmd, int er)
 {
 	int i;
