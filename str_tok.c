@@ -10,7 +10,7 @@ unsigned int check_delim(const char *str, char c)
 {
 	unsigned int n;
 
-	for(n = 0; str[n] != '\0'; i++)
+	for (n = 0; str[n] != '\0'; i++)
 	{
 		if (c == str[n])
 			return (1);

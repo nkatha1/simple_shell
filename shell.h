@@ -63,9 +63,9 @@ void print_error(char *, int, char **);
 void print_number_in(int);
 void print_number(unsigned int);
 
-void treat_file(char *, int, FILE *, char **);
+void treat_f(char *, int, FILE *, char **);
 int check_cmd(char **, char *, int, char **);
-void exit_bul_for_file(char **, char *, FILE *);
+void exit_bul_file(char **, char *, FILE *);
 void read_file(char *, char **);
 int handle_builtin(char **, int);
 char *build(char *, char *);
