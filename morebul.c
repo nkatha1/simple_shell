@@ -3,16 +3,17 @@
 /**
  * history_dis - The description of the history
  * @c: The character
+ * @s: integer
  *
- * Return : An integer
+ * Return: An integer
  */
-int history_dis(__attribute__((unused))char**c,__attribute__((unused))int s)
+int history_dis(__attribute__((unused))char **c, __attribute__((unused))int s)
 {
 	char *filename = ".shell_history";
 	FILE *ff;
 	char *line = NULL;
 	size_t len = 0;
-	int n = o;
+	int n = 0;
 	char *ch;
 
 	ff = fopen(filename, "r");
@@ -30,13 +31,13 @@ int history_dis(__attribute__((unused))char**c,__attribute__((unused))int s)
 		PRINTER(" ");
 	}
 	if (line)
-		free (line);
+		free(line);
 	fclose(ff);
 	return (0);
 }
 
 /**
- * print_echo _ It executes noraml echo
+ * print_echo - It executes noraml echo
  * @input: The command that is parsed
  * Return: An integer
  */
@@ -54,15 +55,15 @@ int print_echo(char **input)
 		}
 		exit(EXIT_FAILURE);
 	}
-	else if (mypid <0)
+	else if (mypid < 0)
 	{
-		retutn (-1);
+		return (-1);
 	}
 	else
 	{
 		do {
 			waitpid(mypid, &status, WUNTRACED);
-		}while (!WIFEEXITED(status) && !WIFSIGNALED(status));
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (1);
 }

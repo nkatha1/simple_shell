@@ -1,25 +1,5 @@
 #include "shell.h"
-<<<<<<< HEAD
 
-/**
- * history - The hist 
- *
- * @input: The character input
- */
-int history(char *input)
-{
-	char *file = ".shell_history";
-	ssize_t ff;
-	ssize_t w;
-	int len = 0;
-
-
-	if (!file)
-		return (-1);
-
-	ff = open(file, 0_CREAT | 0_RDWR | O_APPEND, 00600);
-
-=======
 /**
  * history - presents history
  * @input: pointer to string
@@ -36,7 +16,6 @@ int history(char *input)
 		return (-1);
 
 	ff = open(file, O_CREAT | O_RDWR | O_APPEND, 0600);
->>>>>>> c1a8aa448e6eb7cdd8cb8511fdcecc49e963c83b
 	if (ff < 0)
 		return (-1);
 	if (input)
@@ -49,17 +28,10 @@ int history(char *input)
 	}
 	return (1);
 }
-<<<<<<< HEAD
 
-/**
- * free_env - It frees the environmnt variable
- * @env: The environment variables
- * Return: Void
-=======
 /**
  * free_env - free env variable array
  * @env: environment variables
->>>>>>> c1a8aa448e6eb7cdd8cb8511fdcecc49e963c83b
  */
 void free_env(char **env)
 {
