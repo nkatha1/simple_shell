@@ -1,11 +1,11 @@
 #include "shell.h"
 /**
- * path_cmd - checks command path
+ * pathcmd - checks command path
  * @cmd: pointer to pointer to string
  *
  * Return: int
  */
-int path_cmd(char **cmd)
+int pathcmd(char **cmd)
 {
 	char *path, *value, *cmd_path;
 	struct stat buf;

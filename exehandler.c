@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * handle_builtin - It handles the builtin 
  * @cmd: The cmd
@@ -7,22 +8,24 @@
  */
 int handle_builtin(char **cmd, int er)
 {
+	int i;
+
 	bul_t bil[] = {
 
 		{"history", history_dis},
-		{"help", display_help},
-		{"cd", change_dir},
+		{"help", dis_help},
+		{"cd", ch_dir},
 		{"echo", echo_bul},
 		{"env", dis_env},
 		{NULL, NULL}
-	}
-	int i = 0;
+	};
+	i = 0;
 
 	while ((bil + i)->command)
 	{
-		if(str_cmp(cmd[0], (bil + 1)->command) == 0)
+		if(str_cmp(cmd[0], (bil + i)->command) == 0)
 		{
-			return ((bil + i)->fun (cmd, er));
+			return ((bil + i)->func(cmd, er));
 		}
 		i++;
 	}
@@ -59,7 +62,7 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 	{
 	if(strn_cmp(*cmd, "./", 2)!=0 && strn_cmp(*cmd, "/", 1) != 0)
 	{
-	path_cmd(cmd);
+	pathcmd(cmd);
 	}
 
 	if (execve(*cmd, cmd, environ) == -1)

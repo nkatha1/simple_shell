@@ -57,7 +57,7 @@ void free_env(char **);
 void free_all(char **, char *);
 void *re_alloc(void *ptr, unsigned int, unsigned int);
 char *mem_cpy(char *, char *, unsigned int);
-void *_calloc(unsigned int);
+void *cal_loc(unsigned int);
 
 void pre_error(char **, int, char **);
 void print_error(char *, int, char **);

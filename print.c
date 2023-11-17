@@ -30,3 +30,13 @@ void print_number(unsigned int n)
 
 	_putchar(i % 10 + '0');
 }
+/**
+ * _putchar - writes characters
+ * @c: character
+ *
+ * Return: int
+ */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}
