@@ -1,18 +1,26 @@
+#include "shell.h"
+/**
+ * str_cmp - compares strings
+ * @str1: pointer to string
+ * @str2: pointer to string
+ *
+ * Return: int
+ */
 int str_cmp(char *str1, char *str2)
 {
-int n = 0, len, len 1;
+int n = 0, i, len, len1;
 len = str_len(str1);
 len1 = str_len(str2);
 
-	if(str1 == NULL || str2 == NULL)
+	if (str1 == NULL || str2 == NULL)
 		return (1);
 	if (len != len1)
 		return (1);
-	for (i = 0; str[1]; i++)
+	for (i = 0; str1[i]; i++)
 	{
-		if(str1[1] != str2[i])
+		if (str1[i] != str2[i])
 		{
-			n = str1[i] - str 2[i];
+			n = str1[i] - str2[i];
 			break;
 		}
 		else
@@ -34,7 +42,7 @@ return (1);
 }
 else
 {
-return(0);
+return (0);
 }
 }
 
@@ -49,14 +57,14 @@ char *_itoa(unsigned int n)
 	char *s;
 
 	len = intlen(n);
-	s = maloc(len + 1);
+	s = malloc(len + 1);
 	if (!s)
 		return (NULL);
 	*s = '\0';
 	while (n / 10)
 	{
 		s[i] = (n % 10) + '0';
-		n / = 10;
+		n /= 10;
 		i++;
 	}
 	s[i] = (n % 10) + '0';
@@ -67,14 +75,14 @@ char *_itoa(unsigned int n)
 
 /**
 * array_rev - reverses the array
-* @array: The array to reverse
+* @arr: The array to reverse
 * @len: The length of the array
 * Return: void(The array reverse)
 */
 void array_rev(char *arr, int len)
 {
 	int i;
-	char tmp:
+	char tmp;
 
 	for (i = 0; i < (len / 2); i++)
 	{

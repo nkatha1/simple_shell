@@ -1,4 +1,13 @@
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+#include "shell.h"
+/**
+ * re_alloc - reallocates memory
+ * @old_size: unsigned int
+ * @ptr: pointer to void
+ * @new_size: unsigned int
+ *
+ * Return: void
+ */
+void *re_alloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *res;
 
@@ -7,15 +16,15 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	if (new_size == 0 && ptr)
 	{
 		free(ptr);
-		return(NULL);
+		return (NULL);
 	}
 	res = malloc(new_size);
 	if (res == NULL)
 		return (NULL);
 	if (ptr == NULL)
 	{
-		fill_an_array(res, '\0', new_size);
-		free (ptr);
+		fill_array(res, '\0', new_size);
+		free(ptr);
 	}
 	else
 	{
@@ -58,13 +67,13 @@ char *mem_cpy(char *dest, char *src, unsigned int n)
 }
 
 /**
- * fill_an_array - Constant byte array it fills it
+ * fill_array - Constant byte array it fills it
  * @a: The void pointer
  * @n: The integer
  * @len: The length integer
  * Return: The void pointer
  */
-void *fill_an_array(void *a, int n, unsigned int len)
+void *fill_array(void *a, int n, unsigned int len)
 {
 	char *p = a;
 	unsigned int i = 0;
