@@ -87,7 +87,7 @@ int dis_env(__attribute__((unused))char **cmd, __attribute__((unused)) int er)
 }
 
 /**
- * display_help - Does the display of the help builtin
+ * dis_help - Does the display of the help builtin
  * @cmd: The command that is parsed
  * @er: Last executed command statue
  * Return: On success 0, failure -1.
