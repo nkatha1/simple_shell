@@ -109,5 +109,3 @@ int intlen(int n)
 	}
 return (len);
 }
-
-

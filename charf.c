@@ -110,4 +110,3 @@ char *str_dup(char *str)
 
 		return (str2);
 }
-
